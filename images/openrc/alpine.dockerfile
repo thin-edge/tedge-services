@@ -20,9 +20,9 @@ RUN case ${TARGETARCH} in \
     && curl "https://github.com/thin-edge/thin-edge.io/releases/download/${TEDGE_VERSION}/tedge_${TEDGE_VERSION}_${TEDGE_ARCH}.tar.gz" -L -s --output /tmp/tedge.tar.gz \
     && tar -C /usr/bin/ -xzf /tmp/tedge.tar.gz
 
-COPY services/openrc/init.d/* /etc/init.d/
-COPY services/openrc/conf.d/* /etc/conf.d/
-COPY services/tedgectl /usr/bin/
+COPY output/tedge-openrc_*.apk /tmp/
+RUN apk add --allow-untrusted /tmp/tedge-openrc_*.apk
+
 COPY ./images/setup.sh /usr/bin/
 
 ENTRYPOINT [ "/sbin/init" ]

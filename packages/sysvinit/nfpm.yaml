@@ -11,13 +11,16 @@ description: thin-edge.io sysvinit service definitions
 vendor: thin-edge.io
 homepage: https://github.com/thin-edge/thin-edge.io
 license: Apache License 2.0
-depends:
-  - sysvinit
 apk:
   # Use noarch instead of "all"
   arch: noarch
 contents:
   - src: ./services/sysvinit/init.d/*
     dst: /etc/init.d/
+    file_info:
+      mode: 0755
+
+  - src: ./services/tedgectl
+    dst: /usr/bin/
     file_info:
       mode: 0755

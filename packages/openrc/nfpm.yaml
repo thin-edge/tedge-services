@@ -24,3 +24,8 @@ contents:
 
   - src: ./services/openrc/conf.d/*
     dst: /etc/conf.d/
+
+  - src: ./services/tedgectl
+    dst: /usr/bin/
+    file_info:
+      mode: 0755

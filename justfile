@@ -14,8 +14,9 @@ build-openrc:
     nfpm package --config ./packages/openrc/nfpm.yaml -p deb -t ./output/
 
 build-sysvinit:
-    rm -rf output
-    mkdir -p output
     nfpm package --config ./packages/sysvinit/nfpm.yaml -p apk -t ./output/
     nfpm package --config ./packages/sysvinit/nfpm.yaml -p rpm -t ./output/
     nfpm package --config ./packages/sysvinit/nfpm.yaml -p deb -t ./output/
+
+up:
+    docker compose up --build
