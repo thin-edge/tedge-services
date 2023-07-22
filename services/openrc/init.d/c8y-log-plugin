@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+description="Thin-edge logfile retriever for Cumulocity"
+command="/usr/bin/c8y-log-plugin"
+
+command_args="${COMMAND_ARGS:-}"
+respawn_delay=5
+pidfile="/run/lock/${RC_SVCNAME}.lock"
+TEDGE_LOGFILE="${TEDGE_LOGFILE:-/var/log/${RC_SVCNAME}.log}"
+supervise_daemon_args=" --env TEDGE_RUN_LOCK_FILES=false"
+error_log="${TEDGE_LOGFILE}"
+
+depend() {
+    after net
+}

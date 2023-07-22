@@ -1,0 +1,8 @@
+# Configuration file for /etc/init.d/tedge-mapper-az
+
+# Additional arguments to pass to tedge-mapper.
+#command_args=
+
+# Comment out if you don't want to use the supervisor
+supervisor="supervise-daemon"
+respawn_delay=5

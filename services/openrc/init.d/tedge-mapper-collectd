@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+description="tedge-mapper-collectd converts Thin Edge JSON measurements to Cumulocity JSON format"
+command="/usr/bin/tedge-mapper"
+
+command_args="${COMMAND_ARGS:-collectd}"
+respawn_delay=5
+pidfile="/run/lock/${RC_SVCNAME}.lock"
+TEDGE_LOGFILE="${TEDGE_LOGFILE:-/var/log/${RC_SVCNAME}.log}"
+supervise_daemon_args=" --env TEDGE_RUN_LOCK_FILES=false"
+error_log="${TEDGE_LOGFILE}"
+
+depend() {
+    after net
+}

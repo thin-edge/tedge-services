@@ -1,0 +1,8 @@
+[init]
+name = "TedgeCtrl"
+is_available = ["/usr/bin/tedgectrl", "is_available"]
+restart = ["/usr/bin/tedgectrl", "restart", "{}"]
+stop =  ["/usr/bin/tedgectrl", "stop", "{}"]
+enable =  ["/usr/bin/tedgectrl", "enable", "{}"]
+disable =  ["/usr/bin/tedgectrl", "disable", "{}"]
+is_active = ["/usr/bin/tedgectrl", "is_active", "{}"]

@@ -1,0 +1,9 @@
+name,command,args,description
+tedge-agent,tedge-agent,,tedge-agent is a thin-edge.io component to support operations
+tedge-mapper-c8y,tedge-mapper,c8y,tedge-mapper-c8y converts Thin Edge JSON measurements to Cumulocity JSON format
+tedge-mapper-aws,tedge-mapper,aws,tedge-mapper-aws checks Thin Edge JSON measurements and forwards to AWS IoT Hub
+tedge-mapper-az,tedge-mapper,az,tedge-mapper-az checks Thin Edge JSON measurements and forwards to Azure IoT Hub
+tedge-mapper-collectd,tedge-mapper,collectd,tedge-mapper-collectd converts Thin Edge JSON measurements to Cumulocity JSON format
+c8y-log-plugin,c8y-log-plugin,,Thin-edge logfile retriever for Cumulocity
+c8y-firmware-plugin,c8y-firmware-plugin,,Thin-edge device firmware management for Cumulocity
+c8y-configuration-plugin,c8y-configuration-plugin,,Thin-edge device configuration management for Cumulocity

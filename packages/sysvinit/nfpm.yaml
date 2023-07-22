@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://nfpm.goreleaser.com/static/schema.json
+---
+name: tedge-sysvinit
+arch: all
+platform: linux
+version: ${SEMVER}
+section: misc
+priority: optional
+maintainer: thin-edge.io <thin-edge@thin-edge.io>
+description: thin-edge.io sysvinit service definitions
+vendor: thin-edge.io
+homepage: https://github.com/thin-edge/thin-edge.io
+license: Apache License 2.0
+depends:
+  - sysvinit
+apk:
+  # Use noarch instead of "all"
+  arch: noarch
+contents:
+  - src: ./services/sysvinit/init.d/*
+    dst: /etc/init.d/
+    file_info:
+      mode: 0755

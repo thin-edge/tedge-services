@@ -1,0 +1,14 @@
+version: "3"
+services:
+  tedge-openrc:
+    build:
+      dockerfile: images/openrc/alpine.dockerfile
+      context: "."
+    privileged: true
+  
+  tedge-sysvinit:
+    build:
+      dockerfile: images/sysvinit/debian.dockerfile
+      context: "."
+    privileged: true
+    stop_grace_period: 5s

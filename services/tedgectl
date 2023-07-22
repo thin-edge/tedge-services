@@ -1,0 +1,97 @@
+#!/bin/sh
+set -e
+
+#
+# Detect service manager
+#
+SERVICE_MANAGER="${SERVICE_MANAGER:-}"
+if [ -z "$SERVICE_MANAGER" ]; then
+    if command -V systemctl >/dev/null 2>&1; then
+        SERVICE_MANAGER="systemd"
+    elif command -V rc-service >/dev/null 2>&1; then
+        SERVICE_MANAGER="openrc"
+    elif command -V update-rc.d >/dev/null 2>&1; then
+        SERVICE_MANAGER="sysvinit"
+    else
+        echo "Could not detect the init system. Only systemd,openrc,sysvinit are supported" >&2
+        exit 1
+    fi
+fi
+
+manage_systemd() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        is_available) systemctl status ;;
+        start) systemctl start "$name";;
+        stop) systemctl stop "$name";;
+        restart) systemctl restart "$name";;
+        enable) systemctl enable "$name" ;;
+        disable) systemctl disable "$name" ;;
+        status) systemctl status "$name" ;;
+        is_active) systemctl is-active "$name" ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_openrc() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        # is_available) rc-service -l ;;
+        is_available) rc-status --all ;;
+        start) rc-service "$name" start ;;
+        stop) rc-service "$name" stop ;;
+        restart) rc-service "$name" restart ;;
+        enable) rc-update add "$name" ;;
+        disable) rc-update delete "$name" ;;
+        is_active|status) rc-service "$name" status ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_sysvinit() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        is_available) service --status-all ;;
+        start) service "$name" start ;;
+        stop) service "$name" stop ;;
+        restart) service "$name" restart ;;
+        enable)
+            update-rc.d "$name" defaults        # TODO check if it is required: install service before enabling
+            update-rc.d "$name" enable
+            ;;
+        disable)
+            update-rc.d "$name" disable
+            update-rc.d "$name" remove
+            ;;
+        is_active|status) service "$name" status ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+##############################
+# Main
+##############################
+COMMAND="$1"
+SERVICE_NAME=""
+if [ $# -ge 2 ]; then
+    SERVICE_NAME="$2"
+fi
+
+case "$SERVICE_MANAGER" in
+    systemd)
+        manage_systemd "$COMMAND" "$SERVICE_NAME"
+        ;;
+    openrc)
+        manage_openrc "$COMMAND" "$SERVICE_NAME"
+        ;;
+    sysvinit)
+        manage_sysvinit "$COMMAND" "$SERVICE_NAME"
+        ;;
+    *)
+        echo "Unknown init system. Only systemd,openrc,sysvinit are supported" >&2
+        exit 1
+        ;;
+esac
