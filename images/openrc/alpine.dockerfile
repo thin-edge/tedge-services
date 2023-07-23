@@ -20,6 +20,8 @@ RUN case ${TARGETARCH} in \
     && curl "https://github.com/thin-edge/thin-edge.io/releases/download/${TEDGE_VERSION}/tedge_${TEDGE_VERSION}_${TEDGE_ARCH}.tar.gz" -L -s --output /tmp/tedge.tar.gz \
     && tar -C /usr/bin/ -xzf /tmp/tedge.tar.gz
 
+RUN adduser -D -H -s /sbin/nologin tedge
+
 COPY output/tedge-openrc_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-openrc_*.apk
 
