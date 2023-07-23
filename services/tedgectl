@@ -12,6 +12,8 @@ if [ -z "$SERVICE_MANAGER" ]; then
         SERVICE_MANAGER="openrc"
     elif command -V update-rc.d >/dev/null 2>&1; then
         SERVICE_MANAGER="sysvinit"
+    elif [ -f /command/s6-rc ]; then
+        SERVICE_MANAGER="s6_overlay"
     else
         echo "Could not detect the init system. Only systemd,openrc,sysvinit are supported" >&2
         exit 1
@@ -30,6 +32,9 @@ manage_systemd() {
         disable) systemctl disable "$name" ;;
         status) systemctl status "$name" ;;
         is_active) systemctl is-active "$name" ;;
+        restart_device)
+            systemctl reboot
+            ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
 }
@@ -46,6 +51,9 @@ manage_openrc() {
         enable) rc-update add "$name" ;;
         disable) rc-update delete "$name" ;;
         is_active|status) rc-service "$name" status ;;
+        restart_device)
+            shutdown -r now
+            ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
 }
@@ -67,6 +75,32 @@ manage_sysvinit() {
             update-rc.d "$name" remove
             ;;
         is_active|status) service "$name" status ;;
+        restart_device)
+            shutdown -r now
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_s6_overlay() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        is_available) /command/s6-rc list ;;
+        start) /command/s6-rc start "$name" ;;
+        stop) /command/s6-rc stop "$name" ;;
+        restart) /command/s6-svc -r "/run/service/$name" ;;
+        enable) /command/s6-rc start "$name" ;;
+        disable) /command/s6-rc stop "$name" ;;
+        is_active|status)
+            if [ -f "/run/service/$name/down" ]; then
+                # Not active
+                exit 1
+            fi
+            ;;
+        restart_device)
+            /run/s6/basedir/bin/reboot
+            ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
 }
@@ -89,6 +123,9 @@ case "$SERVICE_MANAGER" in
         ;;
     sysvinit)
         manage_sysvinit "$COMMAND" "$SERVICE_NAME"
+        ;;
+    s6_overlay)
+        manage_s6_overlay "$COMMAND" "$SERVICE_NAME"
         ;;
     *)
         echo "Unknown init system. Only systemd,openrc,sysvinit are supported" >&2

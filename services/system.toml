@@ -6,3 +6,6 @@ stop =  ["/usr/bin/tedgectrl", "stop", "{}"]
 enable =  ["/usr/bin/tedgectrl", "enable", "{}"]
 disable =  ["/usr/bin/tedgectrl", "disable", "{}"]
 is_active = ["/usr/bin/tedgectrl", "is_active", "{}"]
+
+[system]
+reboot = ["/usr/bin/tedgectrl", "restart_device"]

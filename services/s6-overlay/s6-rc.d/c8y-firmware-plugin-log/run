@@ -1,0 +1,2 @@
+#!/bin/sh
+sed 's/^/\x1b[34mc8y-firmware-plugin |\x1b[0m /' --unbuffered

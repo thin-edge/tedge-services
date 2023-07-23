@@ -12,3 +12,8 @@ services:
       context: "."
     privileged: true
     stop_grace_period: 5s
+
+  tedge-s6-overlay:
+    build:
+      dockerfile: images/s6-overlay/alpine-s6-overlay.dockerfile
+      context: "."
