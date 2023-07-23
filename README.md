@@ -1,5 +1,10 @@
-# tedge-services-openrc
-WIP: thin-edge.io openrc service files
+# tedge-services
+
+WIP: thin-edge.io service file definitions for the following init systems
+
+* openrc
+* sysinitv
+* s6-overlay
 
 ## Build
 
