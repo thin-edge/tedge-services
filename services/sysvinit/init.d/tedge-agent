@@ -29,6 +29,7 @@ run_service=1
 
 DAEMON_ARGS=""
 DAEMON_USER="tedge"
+LOG_FILE=/var/log/tedge-agent.log
 
 export TEDGE_RUN_LOCK_FILES="false"
 
@@ -66,8 +67,15 @@ do_start() {
 	if [ $run_service = 1 ]
     then
 		log_begin_msg "Starting tedge-agent daemon..."
+
+		# Create log file with given user so it can write to it (for non-root users)
+		touch "$LOG_FILE"
+		if [ -n "$DAEMON_USER" ]; then
+			chown "$DAEMON_USER" "$LOG_FILE"
+		fi
+
 		start-stop-daemon --start --quiet --oknodo --background --make-pidfile --pidfile "$PIDFILE" --chuid "${DAEMON_USER}" --user "${DAEMON_USER}" \
-				--exec "$DAEMON" -- $DAEMON_ARGS
+				--startas /bin/sh -- -c "exec $DAEMON $DAEMON_ARGS > '$LOG_FILE' 2>&1"
 		log_end_msg $?
     fi
 }
@@ -76,12 +84,8 @@ do_stop() {
 	if [ $run_service = 1 ]
     then
 		log_begin_msg "Stopping tedge-agent daemon..."
-		# start-stop-daemon --stop --quiet --oknodo --retry $STOP_RETRY_SCHEDULE \
-		# 	--pidfile "$PIDFILE" --user "${DAEMON_USER}"
-		# log_end_msg $?
-		# rm -f "${PIDFILE}"
 
-		if start-stop-daemon --stop --quiet --oknodo --pidfile "${PIDFILE}" --user "${DAEMON_USER}"; then
+		if start-stop-daemon --stop --quiet --oknodo --retry "$STOP_RETRY_SCHEDULE" --pidfile "${PIDFILE}" --user "${DAEMON_USER}"; then
 			log_end_msg 0
 			rm -f "${PIDFILE}"
 		else
