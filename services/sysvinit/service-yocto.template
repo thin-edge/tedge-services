@@ -1,14 +1,14 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:          tedge-agent
+# Provides:          $NAME
 # Required-Start:    $local_fs
 # Should-Start:
 # Required-Stop:     $local_fs
 # Should-Stop:
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: tedge-agent is a thin-edge.io component to support operations
-# Description:       tedge-agent is a thin-edge.io component to support operations
+# Short-Description: $DESCRIPTION
+# Description:       $DESCRIPTION
 #
 ### END INIT INFO
 
@@ -42,10 +42,10 @@
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-DESC="tedge-agent is a thin-edge.io component to support operations"
-DAEMON=/usr/bin/tedge-agent
-DAEMON_ARGS=""
-PIDFILE=/var/run/tedge-agent.pid
+DESC="$DESCRIPTION"
+DAEMON=/usr/bin/$COMMAND
+DAEMON_ARGS="$COMMAND_ARGS"
+PIDFILE=/var/run/$NAME.pid
 
 . /etc/init.d/functions || exit 1
 
@@ -53,7 +53,7 @@ PIDFILE=/var/run/tedge-agent.pid
 [ -x "$DAEMON" ] || exit 0
 
 # Read configuration variable file if it is present
-[ -r /etc/default/tedge-agent ] && . /etc/default/tedge-agent
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 #
 # Function that starts the daemon/service
@@ -62,7 +62,7 @@ do_start() {
 	local status pid
 
 	status=0
-	pid=`pidofproc tedge-agent` || status=$?
+	pid=`pidofproc $NAME` || status=$?
 	case $status in
 	0)
 		echo "$DESC already running ($pid)."
@@ -88,7 +88,7 @@ do_stop() {
 	local pid status
 
 	status=0
-	pid=`pidofproc tedge-agent` || status=$?
+	pid=`pidofproc $NAME` || status=$?
 	case $status in
 	0)
 		# Exit when fail to stop, the kill would complain when fail
@@ -119,7 +119,7 @@ do_reload() {
         # If the daemon can reload its configuration without
         # restarting (for example, when it is sent a SIGHUP),
         # then implement that here.
-	pid=`pidofproc tedge-agent` || status=$?
+	pid=`pidofproc $NAME` || status=$?
 	case $status in
 	0)
 		echo "Reloading $DESC ..."
@@ -141,7 +141,7 @@ status_of_proc () {
 
 	status=0
 	# pidof output null when no program is running, so no "2>/dev/null".
-	pid=`pidofproc tedge-agent` || status=$?
+	pid=`pidofproc $NAME` || status=$?
 	case $status in
 	0)
 		echo "$DESC is running ($pid)."

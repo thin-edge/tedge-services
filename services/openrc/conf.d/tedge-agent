@@ -3,6 +3,9 @@
 # Additional arguments to pass to tedge-agent.
 #command_args=
 
+# Overwrite user
+#command_user=
+
 # Comment out if you don't want to use the supervisor
 supervisor="supervise-daemon"
 respawn_delay=5
