@@ -24,5 +24,8 @@ build-s6-overlay:
     nfpm package --config ./packages/s6-overlay/nfpm.yaml -p rpm -t ./output/
     nfpm package --config ./packages/s6-overlay/nfpm.yaml -p deb -t ./output/
 
-up:
-    docker compose up --build
+start:
+    docker compose up --build -d
+
+stop:
+    docker compose down
