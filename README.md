@@ -3,30 +3,24 @@
 WIP: thin-edge.io service file definitions for the following init systems
 
 * openrc
-* sysinitv
+* sysvinit
 * s6-overlay
 
 ## Build
 
-1. Update the service files
-
-    ```sh
-    just generate
-    ```
-
-2. Build the packages
+1. Build the packages (including generating service files from the templates)
 
     ```sh
     just build
     ```
 
-3. Start test containers (one per init system)
+2. Start test containers (one per init system)
 
     ```sh
     just start
     ```
 
-4. Start a console and test the functions
+3. Start a console and test the functions
 
     **Start console inside one of the containers**
 
@@ -37,6 +31,7 @@ WIP: thin-edge.io service file definitions for the following init systems
     **Check service**
 
     ```sh
+    # Start service
     tedgectl start tedge-agent
 
     # Check it is running
