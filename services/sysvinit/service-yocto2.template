@@ -36,7 +36,7 @@ export TEDGE_RUN_LOCK_FILES="false"
 [ -e "/etc/default/$NAME" ] && . "/etc/default/$NAME"
 
 DAEMON=/usr/bin/$COMMAND
-PIDFILE=/var/run/$NAME.pid
+PIDFILE=/run/lock/$NAME.lock
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 

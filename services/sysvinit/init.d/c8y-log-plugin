@@ -36,7 +36,7 @@ export TEDGE_RUN_LOCK_FILES="false"
 [ -e "/etc/default/c8y-log-plugin" ] && . "/etc/default/c8y-log-plugin"
 
 DAEMON=/usr/bin/c8y-log-plugin
-PIDFILE=/var/run/c8y-log-plugin.pid
+PIDFILE=/run/lock/c8y-log-plugin.lock
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 

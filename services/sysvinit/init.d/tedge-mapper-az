@@ -36,7 +36,7 @@ export TEDGE_RUN_LOCK_FILES="false"
 [ -e "/etc/default/tedge-mapper-az" ] && . "/etc/default/tedge-mapper-az"
 
 DAEMON=/usr/bin/tedge-mapper
-PIDFILE=/var/run/tedge-mapper-az.pid
+PIDFILE=/run/lock/tedge-mapper-az.lock
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 
