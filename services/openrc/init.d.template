@@ -8,6 +8,13 @@ TEDGE_LOGFILE="${TEDGE_LOGFILE:-/var/log/${RC_SVCNAME}.log}"
 supervise_daemon_args=" --env TEDGE_RUN_LOCK_FILES=false"
 error_log="${TEDGE_LOGFILE}"
 
+start_pre()
+{
+    if [ -n "$COMMAND_USER" ]; then
+        checkpath --file --owner "$COMMAND_USER" "$TEDGE_LOGFILE"
+    fi
+}
+
 depend() {
     after net
 }
