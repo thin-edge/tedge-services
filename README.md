@@ -46,3 +46,56 @@ WIP: thin-edge.io service file definitions for the following init systems
     # Check if service is stopped
     pgrep -fa tedge-agent
     ```
+
+## Init Systems
+
+`tedgectl` is provided in the project to help interact with each of the init systems using the same interface. Each of the init systems can be interacted with using the following commands.
+
+### Start service
+
+```sh
+tedgectl start <name>
+```
+
+### Stop service
+
+```sh
+tedgectl stop <name>
+```
+
+### Enable service
+
+```sh
+tedgectl enable <name>
+```
+
+### Disable service
+
+```sh
+tedgectl disable <name>
+```
+
+
+## sysvinit
+
+### Get logs
+
+```sh
+tail -f /var/log/<name>.log
+```
+
+## openrc
+
+### Get logs
+
+```sh
+tail -f /var/log/<name>.log
+```
+
+## s6-overlay
+
+### Get logs
+
+```sh
+TODO
+```
