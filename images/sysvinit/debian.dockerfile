@@ -24,6 +24,11 @@ RUN case ${TARGETARCH} in \
     && curl "https://github.com/thin-edge/thin-edge.io/releases/download/${TEDGE_VERSION}/tedge_${TEDGE_VERSION}_${TEDGE_ARCH}.tar.gz" -L -s --output /tmp/tedge.tar.gz \
     && tar -C /usr/bin/ -xzf /tmp/tedge.tar.gz
 
+RUN useradd --shell /usr/sbin/nologin tedge
+
+# Copy functions script used by yocto
+COPY images/sysvinit/functions /etc/init.d/
+
 COPY output/tedge-sysvinit_*.deb /tmp/
 RUN dpkg -i /tmp/tedge-sysvinit_*.deb
 

@@ -1,9 +1,9 @@
 #!/bin/sh
-#/etc/init.d/tedge-agent: tedge-agent is a thin-edge.io component to support operations
+#/etc/init.d/$NAME: $DESCRIPTION
 
 ### BEGIN INIT INFO
-# Provides:          tedge-agent
-# Short-Description: tedge-agent is a thin-edge.io component to support operations
+# Provides:          $NAME
+# Short-Description: $DESCRIPTION
 # Required-Start:    $all
 # Required-Stop:     $all
 # Should-Start:      
@@ -19,23 +19,23 @@ set -e
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
-test -x "/usr/bin/tedge-agent" || exit 0
+test -x "/usr/bin/$COMMAND" || exit 0
 
 # For configuration of the init script use the file
-# /etc/default/tedge-agent, do not edit this init script.
+# /etc/default/$NAME, do not edit this init script.
 
-# Set run_service to 1 to start tedge-agent or 0 to disable it.
+# Set run_service to 1 to start $NAME or 0 to disable it.
 run_service=1
 
-DAEMON_ARGS=""
-DAEMON_USER="tedge"
+DAEMON_ARGS="$COMMAND_ARGS"
+DAEMON_USER="$COMMAND_USER"
 
 export TEDGE_RUN_LOCK_FILES="false"
 
-[ -e "/etc/default/tedge-agent" ] && . "/etc/default/tedge-agent"
+[ -e "/etc/default/$NAME" ] && . "/etc/default/$NAME"
 
-DAEMON=/usr/bin/tedge-agent
-PIDFILE=/var/run/tedge-agent.pid
+DAEMON=/usr/bin/$COMMAND
+PIDFILE=/var/run/$NAME.pid
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 
@@ -65,7 +65,7 @@ log_progress_msg() {
 do_start() {
 	if [ $run_service = 1 ]
     then
-		log_begin_msg "Starting tedge-agent daemon..."
+		log_begin_msg "Starting $NAME daemon..."
 		start-stop-daemon --start --quiet --oknodo --background --make-pidfile --pidfile "$PIDFILE" --chuid "${DAEMON_USER}" --user "${DAEMON_USER}" \
 				--exec "$DAEMON" -- $DAEMON_ARGS
 		log_end_msg $?
@@ -75,7 +75,7 @@ do_start() {
 do_stop() {
 	if [ $run_service = 1 ]
     then
-		log_begin_msg "Stopping tedge-agent daemon..."
+		log_begin_msg "Stopping $NAME daemon..."
 		# start-stop-daemon --stop --quiet --oknodo --retry $STOP_RETRY_SCHEDULE \
 		# 	--pidfile "$PIDFILE" --user "${DAEMON_USER}"
 		# log_end_msg $?
@@ -106,7 +106,7 @@ case "$1" in
 
   try-restart|force-reload)
   	if [ $run_service = 0 ]; then exit 0; fi
-    log_daemon_msg "Restarting tedge-agent"
+    log_daemon_msg "Restarting $NAME"
 	# force-reload is the same as reload or try-restart according
 	# to its definition, the reload is not implemented here, so
 	# force-reload is the alias of try-restart here, but it should
@@ -121,7 +121,7 @@ case "$1" in
     ;;
 
   *)
-    echo "Usage: /etc/init.d/tedge-agent {start|stop|status|restart|try-restart|force-reload}" >&2
+    echo "Usage: /etc/init.d/$NAME {start|stop|status|restart|try-restart|force-reload}" >&2
     exit 1
 
 esac

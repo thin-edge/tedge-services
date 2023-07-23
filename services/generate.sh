@@ -46,7 +46,7 @@ generate_sysvinit() {
     # execute_template "sysvinit/service.template" > "sysvinit/init.d/$NAME"
 
     # option 2: use template which does not use start-stop-daemon
-    execute_template "sysvinit/service-yocto.template" > "sysvinit/init.d/$NAME"
+    execute_template "sysvinit/service-yocto2.template" > "sysvinit/init.d/$NAME"
     chmod a+x "sysvinit/init.d/$NAME"
 }
 

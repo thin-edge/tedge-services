@@ -47,6 +47,30 @@ DAEMON=/usr/bin/$COMMAND
 DAEMON_ARGS="$COMMAND_ARGS"
 PIDFILE=/var/run/$NAME.pid
 
+export TEDGE_RUN_LOCK_FILES="false"
+
+# Mock Debian stuff
+# Reference: https://git.yoctoproject.org/poky/plain/meta/recipes-extended/watchdog/watchdog/watchdog.init
+log_begin_msg() {
+    printf "%s" "$*"
+}
+
+log_end_msg() {
+    if [ "$1" = "0" ]; then
+        echo 'done'
+    else
+        echo 'error'
+    fi
+}
+
+log_daemon_msg() {
+    echo "$*"
+}
+
+log_progress_msg() {
+    echo "$*"
+}
+
 . /etc/init.d/functions || exit 1
 
 # Exit if the package is not installed
