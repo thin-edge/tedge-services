@@ -1,0 +1,5 @@
+NAME=tedge-mapper-aws
+COMMAND=tedge-mapper
+COMMAND_ARGS=aws
+COMMAND_USER=tedge
+DESCRIPTION="tedge-mapper-aws checks Thin Edge JSON measurements and forwards to AWS IoT Hub"

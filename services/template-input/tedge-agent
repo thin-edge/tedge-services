@@ -1,0 +1,6 @@
+NAME=tedge-agent
+COMMAND=tedge-agent
+COMMAND_USER=
+COMMAND_ARGS=
+COMMAND_USER=tedge
+DESCRIPTION="tedge-agent is a thin-edge.io component to support operations"
