@@ -2,7 +2,7 @@
 generate:
     ./services/generate.sh
 
-build:
+build: generate
     rm -rf output
     mkdir -p output
     just build-openrc
@@ -26,6 +26,15 @@ build-s6-overlay:
 
 start:
     docker compose up --build -d
+
+shell-sysvinit:
+    docker compose exec tedge-sysvinit bash
+
+shell-openrc:
+    docker compose exec tedge-openrc ash
+
+shell-s6-overlay:
+    docker compose exec tedge-s6-overlay bash
 
 stop:
     docker compose down
