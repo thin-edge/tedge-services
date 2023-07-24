@@ -40,7 +40,7 @@ shell-openrc:
     docker compose exec tedge-openrc ash
 
 shell-s6-overlay:
-    docker compose exec tedge-s6-overlay bash
+    docker compose exec tedge-s6-overlay ash
 
 shell-runit:
     docker compose exec tedge-runit ash
