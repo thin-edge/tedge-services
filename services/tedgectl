@@ -110,7 +110,9 @@ manage_s6_overlay() {
 manage_runit() {
     command="$1"
     name="$2"
-    export SVDIR="${SVDIR:-/var/service}"
+    export SVDIR="${SVDIR:-/etc/service}"
+    RUNIT_SRCDIR="${RUNIT_SRCDIR:-/etc/runit}"
+
     case "$command" in
         is_available)
             if command -V pgrep >/dev/null 2>&1; then
@@ -124,14 +126,14 @@ manage_runit() {
         restart) sv restart "$name" ;;
         enable)
             if [ ! -d "$SVDIR/$name" ]; then
-                ln -s "/etc/runit/$name" "$SVDIR"
+                ln -s "$RUNIT_SRCDIR/$name" "$SVDIR"
             fi
             # Remove file (if it exists)
-            rm -f "/etc/runit/$name/down"
+            rm -f "$RUNIT_SRCDIR/$name/down"
             ;;
         disable)
-            if [ -d "/etc/runit/$name" ]; then
-                touch "/etc/runit/$name/down"
+            if [ -d "$RUNIT_SRCDIR/$name" ]; then
+                touch "$RUNIT_SRCDIR/$name/down"
             fi
             ;;
         is_active|status) sv status "$name" ;;
