@@ -47,18 +47,24 @@ ENV TEDGE_MQTT_BIND_ADDRESS=0.0.0.0
 ENV TEDGE_MQTT_PORT=1883
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=30000
 
-RUN adduser -D -H -s /sbin/nologin tedge
 
-# RUN tedge --init \
-#     && tedge-agent --init \
-#     && tedge-mapper --init c8y \
-#     && tedge-mapper --init az \
-#     && tedge-mapper --init aws \
-#     && c8y-log-plugin --init \
-#     && c8y-configuration-plugin --init \
-#     && c8y-remote-access-plugin --init \
-#     && chown -R "${CONTAINER_USER}:${CONTAINER_GROUP}" /etc/tedge
+ENV CONTAINER_USER=tedge
+ENV CONTAINER_GROUP=tedge
+RUN addgroup -S "$CONTAINER_GROUP" \
+    && adduser -g "" -H -D "$CONTAINER_USER" -G "$CONTAINER_GROUP" \
+    && mkdir -p /mosquitto/data \
+    && chown -R "${CONTAINER_USER}:${CONTAINER_GROUP}" /mosquitto/data
+
+RUN tedge --init \
+    && tedge-agent --init \
+    && tedge-mapper --init c8y \
+    && tedge-mapper --init az \
+    && tedge-mapper --init aws \
+    && c8y-log-plugin --init \
+    && c8y-configuration-plugin --init \
+    && c8y-remote-access-plugin --init \
+    && chown -R "${CONTAINER_USER}:${CONTAINER_GROUP}" /etc/tedge
 
 
-# USER "$CONTAINER_USER"
+USER "$CONTAINER_USER"
 ENTRYPOINT ["/init"]
