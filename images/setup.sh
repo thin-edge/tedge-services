@@ -2,8 +2,17 @@
 set -e
 
 start_enable() {
-  tedgectl enable "$1"
-  tedgectl start "$1"
+  name="$1"
+  tedgectl enable "$name"
+  tedgectl start "$name"
+
+  pgrep -fa "/$name" || echo "FAIL: Could not find service. service=$name"
+  tedgectl status "$name" || echo "FAIL: Service status should work when service is running. service=$name"
+
+  tedgectl stop "$name"
+  pgrep -fa "/$name" && echo "FAIL: Service should not be running. service=$name"
+
+  tedgectl status "$name" || echo "FAIL: Service status should work when service is stopped. service=$name"
 }
 
 start_enable tedge-agent
