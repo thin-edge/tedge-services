@@ -6,6 +6,10 @@ WIP: thin-edge.io service file definitions for the following init systems
 * sysvinit
 * s6-overlay
 
+## Pre-requisites
+
+You need to have [nfpm](https://nfpm.goreleaser.com/install/) installed first before running the build tasks.
+
 ## Build
 
 1. Build the packages (including generating service files from the templates)
