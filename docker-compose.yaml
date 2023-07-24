@@ -17,3 +17,8 @@ services:
     build:
       dockerfile: images/s6-overlay/alpine-s6-overlay.dockerfile
       context: "."
+
+  tedge-runit:
+    build:
+      dockerfile: images/runit/alpine-runit.dockerfile
+      context: "."

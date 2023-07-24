@@ -79,6 +79,14 @@ generate_s6_overlay() {
     find "s6-overlay/s6-rc.d" -name run -exec chmod +x {} \;
 }
 
+generate_runit() {
+    mkdir -p runit/runsvdir
+    echo "[runit] Generating service files: $NAME"
+    mkdir -p "runit/runsvdir/$NAME"
+    execute_template "runit/run.template" > "runit/runsvdir/$NAME/run"
+    chmod 755 "runit/runsvdir/$NAME/run"
+}
+
 for f in template-input/*
 do
     if [ -f "$f" ]; then
@@ -99,6 +107,7 @@ do
             generate_openrc
             generate_sysvinit
             generate_s6_overlay
+            generate_runit
         
         else
             echo "Missing some mandatory variables. NAME and COMMAND must be set in template input file: $f" >&2

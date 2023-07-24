@@ -1,0 +1,15 @@
+#!/bin/sh -e
+touch "/var/log/tedge-mapper-collectd.log"
+DAEMON_USER="tedge"
+LOG_FILE="/var/log/tedge-mapper-collectd.log"
+PIDFILE="/run/lock/tedge-mapper-collectd.lock"
+
+mkdir -p /run/lock
+chown 1777 /run/lock
+touch "$PIDFILE"
+
+if [ -n "$DAEMON_USER" ]; then
+    chown "$DAEMON_USER" "$PIDFILE"
+    chown "$DAEMON_USER" "/var/log/tedge-mapper-collectd.log"
+fi
+exec chpst -u "$DAEMON_USER" "/usr/bin/tedge-mapper" collectd >> "$LOG_FILE" 2>&1

@@ -14,8 +14,10 @@ if [ -z "$SERVICE_MANAGER" ]; then
         SERVICE_MANAGER="sysvinit"
     elif [ -f /command/s6-rc ]; then
         SERVICE_MANAGER="s6_overlay"
+    elif command -V runit >/dev/null 2>&1; then
+        SERVICE_MANAGER="runit"
     else
-        echo "Could not detect the init system. Only systemd,openrc,sysvinit are supported" >&2
+        echo "Could not detect the init system. Only openrc,runit,systemd,sysvinit,s6-overlay are supported" >&2
         exit 1
     fi
 fi
@@ -105,6 +107,52 @@ manage_s6_overlay() {
     esac
 }
 
+manage_runit() {
+    command="$1"
+    name="$2"
+    RUNIT_SVDIR="${RUNIT_SVDIR:-/etc/service}"
+    case "$command" in
+        is_available)
+            if command -V pgrep >/dev/null 2>&1; then
+                pgrep -P 1 -a | grep runsv
+            else
+                grep -q runsvdir /proc/1/comm
+            fi
+            ;;
+        start) sv start "$name" ;;
+        stop) sv stop "$name" ;;
+        restart) sv restart "$name" ;;
+        enable)
+            if [ -d /var/service ]; then
+                ln -s "/etc/runit/$name" /var/service/
+            else
+                if [ ! -d "$RUNIT_SVDIR/$name" ]; then
+                    ln -s "/etc/runit/$name" "$RUN_IT_DIR"
+                fi
+                # ln -s "/etc/runit/$name" "/etc/sv/$name"
+                # ln -sf "/etc/runit/$name" "/etc/runit/runsvdir/default/$name"
+            fi
+            # Remove file (if it exists)
+            rm -f "/etc/runit/$name/down"
+            ;;
+        disable)
+            if [ -f "/etc/runit/$name/down" ]; then
+                rm -f "/etc/runit/$name/down"
+            fi
+            # if [ -d /var/service ]; then
+            #     rm -rf "/etc/sv/$name" "/var/service/$name"
+            # else
+            #     rm -rf "/etc/runit/runsvdir/default/$name"
+            # fi
+            ;;
+        is_active|status) sv status "$name" ;;
+        restart_device)
+            shutdown -r now
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
 ##############################
 # Main
 ##############################
@@ -127,8 +175,11 @@ case "$SERVICE_MANAGER" in
     s6_overlay)
         manage_s6_overlay "$COMMAND" "$SERVICE_NAME"
         ;;
+    runit)
+        manage_runit "$COMMAND" "$SERVICE_NAME"
+        ;;
     *)
-        echo "Unknown init system. Only systemd,openrc,sysvinit are supported" >&2
+        echo "Unknown init system. Only openrc,runit,systemd,sysvinit,s6-overlay are supported" >&2
         exit 1
         ;;
 esac
