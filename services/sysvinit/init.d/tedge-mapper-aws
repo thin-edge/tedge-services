@@ -40,9 +40,7 @@ PIDFILE=/run/lock/tedge-mapper-aws.lock
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 
-. /etc/init.d/functions
-
-# Mock Debian stuff
+# Mock Debian helper functions when not being run on a debian based OS
 log_begin_msg() {
     printf "%s" "$*"
 }
@@ -62,6 +60,17 @@ log_daemon_msg() {
 log_progress_msg() {
     echo "$*"
 }
+
+# TODO: Can the imports be excluded if the mocked functions are used above?
+if [ -f /lib/lsb/init-functions ]; then
+	# Debian based systems including WSL (ubuntu)
+	. /lib/lsb/init-functions
+fi
+
+if [ -f /etc/init.d/functions ]; then
+	# YOCTO
+	. /etc/init.d/functions
+fi
 
 do_start() {
     if [ $run_service = 1 ]
