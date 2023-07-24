@@ -15,9 +15,8 @@ apk:
   # Use noarch instead of "all"
   arch: noarch
 contents:
-  - src: ./services/s6-overlay/s6-rc.d/
+  - src: ./services/s6-overlay/s6-rc.d
     dst: /etc/s6-overlay/s6-rc.d
-    type: tree
 
   - src: ./services/tedgectl
     dst: /usr/bin/

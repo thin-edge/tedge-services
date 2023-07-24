@@ -39,7 +39,7 @@ RUN case ${TARGETARCH} in \
     && tar -C /usr/bin/ -xzf /tmp/tedge.tar.gz
 
 COPY output/tedge-s6overlay_*.apk /tmp/
-# RUN apk add --allow-untrusted /tmp/tedge-s6overlay_*.apk
+RUN apk add --allow-untrusted /tmp/tedge-s6overlay_*.apk
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 ENV TEDGE_RUN_LOCK_FILES=false
