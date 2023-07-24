@@ -42,5 +42,8 @@ shell-openrc:
 shell-s6-overlay:
     docker compose exec tedge-s6-overlay bash
 
+shell-runit:
+    docker compose exec tedge-runit ash
+
 stop:
     docker compose down

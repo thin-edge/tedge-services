@@ -22,30 +22,14 @@ RUN case ${TARGETARCH} in \
     && tar -C /usr/bin/ -xzf /tmp/tedge.tar.gz
 
 # Configure runit
+ENV SVDIR="/etc/service"
 RUN mkdir -p /service \
-    && mkdir -p /etc/service \
+    && mkdir -p "$SVDIR" \
     && mkdir -p /etc/runit/runsvdir/default
-# RUN mkdir -p /etc/runit/runsvdir/default/
 
 RUN adduser -D -H -s /sbin/nologin tedge
 
 COPY output/tedge-runit_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-runit_*.apk
 
-
-# RUN tedge --init \
-#     && tedge-agent --init \
-#     && tedge-mapper --init c8y \
-#     && tedge-mapper --init az \
-#     && tedge-mapper --init aws \
-#     && c8y-log-plugin --init \
-#     && c8y-configuration-plugin --init \
-#     && c8y-remote-access-plugin --init \
-#     && chown -R "${CONTAINER_USER}:${CONTAINER_GROUP}" /etc/tedge
-
-# USER "$CONTAINER_USER"
-# ENTRYPOINT ["/sbin/runit"]
-# CMD [ "runsvdir", "/etc/runit/runsvdir" ]
 CMD [ "runsvdir", "-P", "/etc/service" ]
-# ENTRYPOINT ["/bin/sh"]
-# CMD [ "-c", "sleep infinity" ]
