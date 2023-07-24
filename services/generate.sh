@@ -13,6 +13,7 @@ execute_template() {
         -e "s/\\\$COMMAND_ARGS/${COMMAND_ARGS:-}/g" \
         -e "s/\\\$COMMAND_USER/${COMMAND_USER:-}/g" \
         -e "s/\\\$COMMAND/${COMMAND:-}/g" \
+        -e "s/\\\$SHORTNAME/${SHORTNAME:-}/g" \
         -e "s/\\\$DESCRIPTION/${DESCRIPTION:-}/g" \
         "$input_file"
 }
@@ -26,6 +27,7 @@ execute_template_inplace() {
         -e "s/\\\$COMMAND_ARGS/${COMMAND_ARGS:-}/g" \
         -e "s/\\\$COMMAND_USER/${COMMAND_USER:-}/g" \
         -e "s/\\\$COMMAND/${COMMAND:-}/g" \
+        -e "s/\\\$SHORTNAME/${SHORTNAME:-}/g" \
         -e "s/\\\$DESCRIPTION/${DESCRIPTION:-}/g" \
         "$input_file"
 }
@@ -96,10 +98,14 @@ do
         COMMAND_ARGS=""
         COMMAND_USER=""
         DESCRIPTION=""
+        SHORTNAME="${NAME:-}"
 
         # Source template variables
         # shellcheck disable=SC1090
         . "$f"
+
+        # Set default name if not set
+        SHORTNAME="${SHORTNAME:-$COMMAND}"
 
         # Validate mandatory arguments
         if [ -n "$NAME" ] && [ -n "$COMMAND" ]; then

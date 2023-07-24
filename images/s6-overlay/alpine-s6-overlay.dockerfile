@@ -47,6 +47,8 @@ ENV TEDGE_MQTT_BIND_ADDRESS=0.0.0.0
 ENV TEDGE_MQTT_PORT=1883
 ENV S6_CMD_WAIT_FOR_SERVICES_MAXTIME=30000
 
+RUN adduser -D -H -s /sbin/nologin tedge
+
 # RUN tedge --init \
 #     && tedge-agent --init \
 #     && tedge-mapper --init c8y \
