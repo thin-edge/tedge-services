@@ -96,7 +96,7 @@ build() {
     fi
 
     TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g')"
-    tar xvzf "$DEB_FILE" data.tar.gz
+    ar x "$DEB_FILE" data.tar.gz
     mv data.tar.gz "$TARBALL"
     echo "created tarball: $TARBALL"
 }
