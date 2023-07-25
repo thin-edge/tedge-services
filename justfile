@@ -1,49 +1,39 @@
+set dotenv-load
 
+package_dir := "dist"
+
+# Generate service files from templates
 generate:
     ./services/generate.sh
 
+# Build packages
 build: generate
-    rm -rf output
-    mkdir -p output
-    just -f {{justfile()}} build-openrc
-    just -f {{justfile()}} build-sysvinit
-    just -f {{justfile()}} build-s6-overlay
-    just -f {{justfile()}} build-runit
+    ./ci/build.sh --output "{{package_dir}}"
 
-build-openrc:
-    nfpm package --config ./packages/openrc/nfpm.yaml -p apk -t ./output/
-    nfpm package --config ./packages/openrc/nfpm.yaml -p rpm -t ./output/
-    nfpm package --config ./packages/openrc/nfpm.yaml -p deb -t ./output/
+# Publish packages
+publish *args="":
+    ./ci/publish.sh --path "{{package_dir}}" {{args}}
 
-build-sysvinit:
-    nfpm package --config ./packages/sysvinit/nfpm.yaml -p apk -t ./output/
-    nfpm package --config ./packages/sysvinit/nfpm.yaml -p rpm -t ./output/
-    nfpm package --config ./packages/sysvinit/nfpm.yaml -p deb -t ./output/
-
-build-s6-overlay:
-    nfpm package --config ./packages/s6-overlay/nfpm.yaml -p apk -t ./output/
-    nfpm package --config ./packages/s6-overlay/nfpm.yaml -p rpm -t ./output/
-    nfpm package --config ./packages/s6-overlay/nfpm.yaml -p deb -t ./output/
-
-build-runit:
-    nfpm package --config ./packages/runit/nfpm.yaml -p apk -t ./output/
-    nfpm package --config ./packages/runit/nfpm.yaml -p rpm -t ./output/
-    nfpm package --config ./packages/runit/nfpm.yaml -p deb -t ./output/
-
+# Start docker compose test image
 start:
     docker compose up --build -d
 
+# Open shell to sysvinit container
 shell-sysvinit:
     docker compose exec tedge-sysvinit bash
 
+# Open shell to openrc container
 shell-openrc:
     docker compose exec tedge-openrc ash
 
+# Open shell to s6-overlay container
 shell-s6-overlay:
     docker compose exec tedge-s6-overlay ash
 
+# Open shell to runit container
 shell-runit:
     docker compose exec tedge-runit ash
 
+# Stop docker compose test image
 stop:
     docker compose down
