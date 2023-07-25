@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://nfpm.goreleaser.com/static/schema.json
+---
+name: tedge-s6overlay
+arch: all
+platform: linux
+version: ${SEMVER}
+section: misc
+priority: optional
+maintainer: thin-edge.io <thin-edge@thin-edge.io>
+description: thin-edge.io sysvinit service definitions
+vendor: thin-edge.io
+homepage: https://github.com/thin-edge/thin-edge.io
+license: Apache License 2.0
+apk:
+  # Use noarch instead of "all"
+  arch: noarch
+contents:
+  - src: ./services/s6-overlay/s6-rc.d
+    dst: /etc/s6-overlay/s6-rc.d
+
+  - src: ./services/tedgectl
+    dst: /usr/bin/
+    file_info:
+      mode: 0755

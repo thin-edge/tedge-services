@@ -1,0 +1,5 @@
+NAME=c8y-log-plugin
+COMMAND=c8y-log-plugin
+#COMMAND_ARGS=
+COMMAND_USER=root
+DESCRIPTION="Thin-edge logfile retriever for Cumulocity"

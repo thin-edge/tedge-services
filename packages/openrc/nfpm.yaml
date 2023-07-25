@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://nfpm.goreleaser.com/static/schema.json
+---
+name: tedge-openrc
+arch: all
+platform: linux
+version: ${SEMVER}
+section: misc
+priority: optional
+maintainer: thin-edge.io <thin-edge@thin-edge.io>
+description: thin-edge.io openrc service definitions
+vendor: thin-edge.io
+homepage: https://github.com/thin-edge/thin-edge.io
+license: Apache License 2.0
+depends:
+  - openrc
+apk:
+  # Use noarch instead of "all"
+  arch: noarch
+contents:
+  - src: ./services/openrc/init.d/*
+    dst: /etc/init.d/
+    file_info:
+      mode: 0755
+
+  - src: ./services/openrc/conf.d/*
+    dst: /etc/conf.d/
+
+  - src: ./services/tedgectl
+    dst: /usr/bin/
+    file_info:
+      mode: 0755

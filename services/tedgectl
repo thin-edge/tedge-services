@@ -1,0 +1,176 @@
+#!/bin/sh
+set -e
+
+#
+# Detect service manager
+#
+SERVICE_MANAGER="${SERVICE_MANAGER:-}"
+if [ -z "$SERVICE_MANAGER" ]; then
+    if command -V systemctl >/dev/null 2>&1; then
+        SERVICE_MANAGER="systemd"
+    elif command -V rc-service >/dev/null 2>&1; then
+        SERVICE_MANAGER="openrc"
+    elif command -V update-rc.d >/dev/null 2>&1; then
+        SERVICE_MANAGER="sysvinit"
+    elif [ -f /command/s6-rc ]; then
+        SERVICE_MANAGER="s6_overlay"
+    elif command -V runit >/dev/null 2>&1; then
+        SERVICE_MANAGER="runit"
+    else
+        echo "Could not detect the init system. Only openrc,runit,systemd,sysvinit,s6-overlay are supported" >&2
+        exit 1
+    fi
+fi
+
+manage_systemd() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        is_available) systemctl status ;;
+        start) systemctl start "$name";;
+        stop) systemctl stop "$name";;
+        restart) systemctl restart "$name";;
+        enable) systemctl enable "$name" ;;
+        disable) systemctl disable "$name" ;;
+        status) systemctl status "$name" ;;
+        is_active) systemctl is-active "$name" ;;
+        restart_device)
+            systemctl reboot
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_openrc() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        # is_available) rc-service -l ;;
+        is_available) rc-status --all ;;
+        start) rc-service "$name" start ;;
+        stop) rc-service "$name" stop ;;
+        restart) rc-service "$name" restart ;;
+        enable) rc-update add "$name" ;;
+        disable) rc-update delete "$name" ;;
+        is_active|status) rc-service "$name" status ;;
+        restart_device)
+            shutdown -r now
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_sysvinit() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        is_available) service --status-all ;;
+        start) service "$name" start ;;
+        stop) service "$name" stop ;;
+        restart) service "$name" restart ;;
+        enable)
+            update-rc.d "$name" defaults        # TODO check if it is required: install service before enabling
+            update-rc.d "$name" enable
+            ;;
+        disable)
+            update-rc.d "$name" disable
+            update-rc.d "$name" remove
+            ;;
+        is_active|status) service "$name" status ;;
+        restart_device)
+            shutdown -r now
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_s6_overlay() {
+    command="$1"
+    name="$2"
+    case "$command" in
+        is_available) /command/s6-rc list ;;
+        start) /command/s6-rc start "$name" ;;
+        stop) /command/s6-rc stop "$name" ;;
+        restart) /command/s6-svc -r "/run/service/$name" ;;
+        enable) /command/s6-rc start "$name" ;;
+        disable) /command/s6-rc stop "$name" ;;
+        is_active|status)
+            if [ -f "/run/service/$name/down" ]; then
+                # Not active
+                exit 1
+            fi
+            ;;
+        restart_device)
+            /run/s6/basedir/bin/reboot
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+manage_runit() {
+    command="$1"
+    name="$2"
+    export SVDIR="${SVDIR:-/etc/service}"
+    RUNIT_SRCDIR="${RUNIT_SRCDIR:-/etc/runit}"
+
+    case "$command" in
+        is_available)
+            if command -V pgrep >/dev/null 2>&1; then
+                pgrep -P 1 -a | grep runsv
+            else
+                grep -q runsvdir /proc/1/comm
+            fi
+            ;;
+        start) sv start "$name" ;;
+        stop) sv stop "$name" ;;
+        restart) sv restart "$name" ;;
+        enable)
+            if [ ! -d "$SVDIR/$name" ]; then
+                ln -s "$RUNIT_SRCDIR/$name" "$SVDIR"
+            fi
+            # Remove file (if it exists)
+            rm -f "$RUNIT_SRCDIR/$name/down"
+            ;;
+        disable)
+            if [ -d "$RUNIT_SRCDIR/$name" ]; then
+                touch "$RUNIT_SRCDIR/$name/down"
+            fi
+            ;;
+        is_active|status) sv status "$name" ;;
+        restart_device)
+            shutdown -r now
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
+##############################
+# Main
+##############################
+COMMAND="$1"
+SERVICE_NAME=""
+if [ $# -ge 2 ]; then
+    SERVICE_NAME="$2"
+fi
+
+case "$SERVICE_MANAGER" in
+    systemd)
+        manage_systemd "$COMMAND" "$SERVICE_NAME"
+        ;;
+    openrc)
+        manage_openrc "$COMMAND" "$SERVICE_NAME"
+        ;;
+    sysvinit)
+        manage_sysvinit "$COMMAND" "$SERVICE_NAME"
+        ;;
+    s6_overlay)
+        manage_s6_overlay "$COMMAND" "$SERVICE_NAME"
+        ;;
+    runit)
+        manage_runit "$COMMAND" "$SERVICE_NAME"
+        ;;
+    *)
+        echo "Unknown init system. Only openrc,runit,systemd,sysvinit,s6-overlay are supported" >&2
+        exit 1
+        ;;
+esac

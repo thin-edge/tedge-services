@@ -1,0 +1,20 @@
+#!/sbin/openrc-run
+description="tedge-mapper-az checks Thin Edge JSON measurements and forwards to Azure IoT Hub"
+command="/usr/bin/tedge-mapper"
+: ${command_args=az}
+: ${command_user=tedge}
+pidfile="/run/lock/${RC_SVCNAME}.lock"
+TEDGE_LOGFILE="${TEDGE_LOGFILE:-/var/log/${RC_SVCNAME}.log}"
+supervise_daemon_args=" --env TEDGE_RUN_LOCK_FILES=false"
+error_log="${TEDGE_LOGFILE}"
+
+start_pre()
+{
+    if [ -n "tedge" ]; then
+        checkpath --file --owner "tedge" "$TEDGE_LOGFILE"
+    fi
+}
+
+depend() {
+    after net
+}

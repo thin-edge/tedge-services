@@ -1,0 +1,15 @@
+#!/bin/sh -e
+touch "/var/log/tedge-agent.log"
+DAEMON_USER="tedge"
+LOG_FILE="/var/log/tedge-agent.log"
+PIDFILE="/run/lock/tedge-agent.lock"
+
+mkdir -p /run/lock
+chown 1777 /run/lock
+touch "$PIDFILE"
+
+if [ -n "$DAEMON_USER" ]; then
+    chown "$DAEMON_USER" "$PIDFILE"
+    chown "$DAEMON_USER" "/var/log/tedge-agent.log"
+fi
+exec chpst -u "$DAEMON_USER" "/usr/bin/tedge-agent"  >> "$LOG_FILE" 2>&1
