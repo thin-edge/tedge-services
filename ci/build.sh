@@ -90,10 +90,13 @@ build() {
 
     # create tarball (use deb file as the reference)
     echo "using tarball packager..."
-    DEB_FILE=$(ls "$output_dir/${PACKAGE_NAME}"_*.deb)
+    DEB_FILE=$(find "$output_dir" -name "${PACKAGE_NAME}*.deb" | head -1)
+    if [ -z "$DEB_FILE" ]; then
+        echo "WARNING: Could not find the debian file. dir=$output_dir" >&2
+    fi
 
-    TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g' )"
-    tar xvzf "$DEB_FILE" data.tar.gz >/dev/null 2>&1
+    TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g')"
+    tar xvzf "$DEB_FILE" data.tar.gz
     mv data.tar.gz "$TARBALL"
     echo "created tarball: $TARBALL"
 }
