@@ -13,7 +13,7 @@ RUN rc-update add rsyslog default \
 RUN case ${TARGETARCH} in \
         "amd64")   TEDGE_ARCH=x86_64-unknown-linux-musl;  ;; \
         "arm64")   TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
-        "arm/v6")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
+        "arm/v6")  TEDGE_ARCH=arm-unknown-linux-musleabihf;  ;; \
         "arm/v7")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
         *)  TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
     esac \
@@ -22,7 +22,7 @@ RUN case ${TARGETARCH} in \
 
 RUN adduser -D -H -s /sbin/nologin tedge
 
-COPY output/tedge-openrc_*.apk /tmp/
+COPY dist/tedge-openrc_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-openrc_*.apk
 
 COPY ./images/setup.sh /usr/bin/

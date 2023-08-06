@@ -15,7 +15,7 @@ RUN apk update \
 RUN case ${TARGETARCH} in \
         "amd64")   TEDGE_ARCH=x86_64-unknown-linux-musl;  ;; \
         "arm64")   TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
-        "arm/v6")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
+        "arm/v6")  TEDGE_ARCH=arm-unknown-linux-musleabihf;  ;; \
         "arm/v7")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
     esac \
     && curl https://github.com/thin-edge/thin-edge.io/releases/download/${TEDGE_VERSION}/tedge_${TEDGE_VERSION}_${TEDGE_ARCH}.tar.gz -L -s --output /tmp/tedge.tar.gz \
@@ -27,7 +27,7 @@ RUN mkdir -p "$SVDIR"
 
 RUN adduser -D -H -s /sbin/nologin tedge
 
-COPY output/tedge-runit_*.apk /tmp/
+COPY dist/tedge-runit_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-runit_*.apk
 
 COPY ./images/setup.sh /usr/bin/

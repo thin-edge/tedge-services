@@ -17,7 +17,7 @@ VOLUME /sys/fs/cgroup
 RUN case ${TARGETARCH} in \
         "amd64")   TEDGE_ARCH=x86_64-unknown-linux-musl;  ;; \
         "arm64")   TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
-        "arm/v6")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
+        "arm/v6")  TEDGE_ARCH=arm-unknown-linux-musleabihf;  ;; \
         "arm/v7")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
         *)  TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
     esac \
@@ -29,7 +29,7 @@ RUN useradd --shell /usr/sbin/nologin tedge
 # Copy functions script used by yocto
 COPY images/sysvinit/functions /etc/init.d/
 
-COPY output/tedge-sysvinit_*.deb /tmp/
+COPY dist/tedge-sysvinit_*.deb /tmp/
 RUN dpkg -i /tmp/tedge-sysvinit_*.deb
 
 COPY ./images/setup.sh /usr/bin/

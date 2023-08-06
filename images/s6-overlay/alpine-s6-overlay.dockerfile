@@ -32,13 +32,13 @@ RUN case ${TARGETARCH} in \
 RUN case ${TARGETARCH} in \
         "amd64")   TEDGE_ARCH=x86_64-unknown-linux-musl;  ;; \
         "arm64")   TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
-        "arm/v6")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
+        "arm/v6")  TEDGE_ARCH=arm-unknown-linux-musleabihf;  ;; \
         "arm/v7")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
     esac \
     && curl https://github.com/thin-edge/thin-edge.io/releases/download/${TEDGE_VERSION}/tedge_${TEDGE_VERSION}_${TEDGE_ARCH}.tar.gz -L -s --output /tmp/tedge.tar.gz \
     && tar -C /usr/bin/ -xzf /tmp/tedge.tar.gz
 
-COPY output/tedge-s6overlay_*.apk /tmp/
+COPY dist/tedge-s6overlay_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-s6overlay_*.apk
 
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
