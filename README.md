@@ -1,9 +1,10 @@
 # tedge-services
 
-WIP: thin-edge.io service file definitions for the following init systems
+thin-edge.io service file definitions for the following init systems:
 
-* openrc
 * sysvinit
+* openrc
+* runit
 * s6-overlay
 
 ## Pre-requisites
