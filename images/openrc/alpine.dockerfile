@@ -22,7 +22,7 @@ RUN case ${TARGETARCH} in \
 
 RUN adduser -D -H -s /sbin/nologin tedge
 
-COPY output/tedge-openrc_*.apk /tmp/
+COPY dist/tedge-openrc_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-openrc_*.apk
 
 COPY ./images/setup.sh /usr/bin/

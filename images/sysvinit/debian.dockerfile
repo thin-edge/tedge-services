@@ -29,7 +29,7 @@ RUN useradd --shell /usr/sbin/nologin tedge
 # Copy functions script used by yocto
 COPY images/sysvinit/functions /etc/init.d/
 
-COPY output/tedge-sysvinit_*.deb /tmp/
+COPY dist/tedge-sysvinit_*.deb /tmp/
 RUN dpkg -i /tmp/tedge-sysvinit_*.deb
 
 COPY ./images/setup.sh /usr/bin/

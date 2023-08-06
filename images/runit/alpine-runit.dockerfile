@@ -27,7 +27,7 @@ RUN mkdir -p "$SVDIR"
 
 RUN adduser -D -H -s /sbin/nologin tedge
 
-COPY output/tedge-runit_*.apk /tmp/
+COPY dist/tedge-runit_*.apk /tmp/
 RUN apk add --allow-untrusted /tmp/tedge-runit_*.apk
 
 COPY ./images/setup.sh /usr/bin/
