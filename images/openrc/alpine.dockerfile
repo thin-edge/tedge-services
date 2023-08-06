@@ -13,7 +13,7 @@ RUN rc-update add rsyslog default \
 RUN case ${TARGETARCH} in \
         "amd64")   TEDGE_ARCH=x86_64-unknown-linux-musl;  ;; \
         "arm64")   TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
-        "arm/v6")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
+        "arm/v6")  TEDGE_ARCH=arm-unknown-linux-musleabihf;  ;; \
         "arm/v7")  TEDGE_ARCH=armv7-unknown-linux-musleabihf;  ;; \
         *)  TEDGE_ARCH=aarch64-unknown-linux-musl;  ;; \
     esac \
