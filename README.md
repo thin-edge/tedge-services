@@ -65,7 +65,7 @@ apt-get install tedge-runit
 apt-get install tedge-s6overlay
 ```
 
-### RHEL/Fedora/RockLinux
+### RHEL/Fedora/RockyLinux
 
 **Overview of packages**
 
