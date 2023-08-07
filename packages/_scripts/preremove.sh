@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # disable services (ignore if not found)
 tedgectl disable tedge-agent 2>/dev/null ||:
