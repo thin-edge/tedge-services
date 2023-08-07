@@ -22,3 +22,7 @@ contents:
     dst: /usr/bin/
     file_info:
       mode: 0755
+scripts:
+  postinstall: ./packages/_scripts/postinstall.sh
+  preremove: ./packages/_scripts/preremove.sh
+  postremove: ./packages/_scripts/postremove.sh
