@@ -29,6 +29,13 @@ contents:
     dst: /usr/bin/
     file_info:
       mode: 0755
+
+  - src: ./services/system.toml
+    dst: /etc/tedge/system.toml
+    type: config
+    file_info:
+      mode: 0644
+
 scripts:
   postinstall: ./packages/_scripts/postinstall.sh
   preremove: ./packages/_scripts/preremove.sh
