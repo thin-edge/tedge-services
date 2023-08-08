@@ -88,7 +88,13 @@ manage_sysvinit() {
                 "/etc/init.d/$name" stop
             fi
             ;;
-        restart) service "$name" restart ;;
+        restart)
+            if command -V service >/dev/null 2>&1; then
+                service "$name" restart
+            else
+                "/etc/init.d/$name" restart
+            fi
+            ;;
         enable)
             update-rc.d "$name" defaults
 
