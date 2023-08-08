@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://nfpm.goreleaser.com/static/schema.json
+---
+name: tedge-sysvinit-yocto
+arch: all
+platform: linux
+version: ${SEMVER}
+section: misc
+priority: optional
+maintainer: thin-edge.io <thin-edge@thin-edge.io>
+description: thin-edge.io sysvinit yocto service definitions
+vendor: thin-edge.io
+homepage: https://github.com/thin-edge/thin-edge.io
+license: Apache License 2.0
+apk:
+  # Use noarch instead of "all"
+  arch: noarch
+contents:
+  - src: ./services/sysvinit-yocto/init.d/*
+    dst: /etc/init.d/
+    file_info:
+      mode: 0755
+
+  - src: ./services/tedgectl
+    dst: /usr/bin/
+    file_info:
+      mode: 0755
+
+  - src: ./services/system.toml
+    dst: /etc/tedge/system.toml
+    type: config
+    file_info:
+      mode: 0644
+
+scripts:
+  postinstall: ./packages/_scripts/postinstall.sh
+  preremove: ./packages/_scripts/preremove.sh

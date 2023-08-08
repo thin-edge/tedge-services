@@ -13,6 +13,13 @@ services:
     privileged: true
     stop_grace_period: 5s
 
+  tedge-sysvinit-yocto:
+    build:
+      dockerfile: images/sysvinit-yocto/debian.dockerfile
+      context: "."
+    privileged: true
+    stop_grace_period: 5s
+
   tedge-s6-overlay:
     build:
       dockerfile: images/s6-overlay/alpine-s6-overlay.dockerfile

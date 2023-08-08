@@ -48,6 +48,13 @@ generate_sysvinit() {
     chmod a+x "sysvinit/init.d/$NAME"
 }
 
+generate_sysvinit_yocto() {
+    mkdir -p sysvinit-yocto/init.d
+    echo "[sysvinit-yocto] Generating service file: $NAME"
+    execute_template "sysvinit-yocto/service-background.template" > "sysvinit-yocto/init.d/$NAME"
+    chmod a+x "sysvinit-yocto/init.d/$NAME"
+}
+
 generate_s6_overlay() {
     shopt -s globstar
 
@@ -108,6 +115,7 @@ do
             echo -e "\nGenerating service files using: file = $f - name=$NAME, command=$COMMAND"
             generate_openrc
             generate_sysvinit
+            generate_sysvinit_yocto
             generate_s6_overlay
             generate_runit
         
