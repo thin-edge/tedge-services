@@ -74,8 +74,20 @@ manage_sysvinit() {
                 /sbin/init --version >/dev/null
             fi
             ;;
-        start) service "$name" start ;;
-        stop) service "$name" stop ;;
+        start)
+            if command -V service >/dev/null 2>&1; then
+                service "$name" start
+            else
+                "/etc/init.d/$name" start
+            fi
+            ;;
+        stop)
+            if command -V service >/dev/null 2>&1; then
+                service "$name" stop
+            else
+                "/etc/init.d/$name" stop
+            fi
+            ;;
         restart) service "$name" restart ;;
         enable)
             update-rc.d "$name" defaults
@@ -89,7 +101,13 @@ manage_sysvinit() {
 
             update-rc.d "$name" remove
             ;;
-        is_active|status) service "$name" status ;;
+        is_active|status)
+            if command -V service >/dev/null 2>&1; then
+                service "$name" status
+            else
+                "/etc/init.d/$name" status
+            fi
+            ;;
         restart_device)
             shutdown -r now
             ;;
