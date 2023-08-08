@@ -109,6 +109,7 @@ fi
 
 # Build packages for each init system
 build ./packages/sysvinit/nfpm.yaml "$OUTPUT_DIR"
+build ./packages/sysvinit-yocto/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/openrc/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/runit/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/s6-overlay/nfpm.yaml "$OUTPUT_DIR"

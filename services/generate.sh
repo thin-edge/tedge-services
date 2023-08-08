@@ -44,12 +44,15 @@ generate_openrc() {
 generate_sysvinit() {
     mkdir -p sysvinit/init.d
     echo "[sysvinit] Generating service file: $NAME"
-    # option 1: use template which makes use of start-stop-daemon, but it is unclear if this is included in yocto
-    # execute_template "sysvinit/service.template" > "sysvinit/init.d/$NAME"
-
-    # option 2: use template which does not use start-stop-daemon
-    execute_template "sysvinit/service-yocto2.template" > "sysvinit/init.d/$NAME"
+    execute_template "sysvinit/service-start-stop-daemon.template" > "sysvinit/init.d/$NAME"
     chmod a+x "sysvinit/init.d/$NAME"
+}
+
+generate_sysvinit_yocto() {
+    mkdir -p sysvinit-yocto/init.d
+    echo "[sysvinit-yocto] Generating service file: $NAME"
+    execute_template "sysvinit-yocto/service-background.template" > "sysvinit-yocto/init.d/$NAME"
+    chmod a+x "sysvinit-yocto/init.d/$NAME"
 }
 
 generate_s6_overlay() {
@@ -112,6 +115,7 @@ do
             echo -e "\nGenerating service files using: file = $f - name=$NAME, command=$COMMAND"
             generate_openrc
             generate_sysvinit
+            generate_sysvinit_yocto
             generate_s6_overlay
             generate_runit
         
