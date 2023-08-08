@@ -1,5 +1,5 @@
 [init]
-name = "TedgeCtl"
+name = "tedgectl"
 is_available = ["/usr/bin/tedgectl", "is_available"]
 restart = ["/usr/bin/tedgectl", "restart", "{}"]
 stop =  ["/usr/bin/tedgectl", "stop", "{}"]
