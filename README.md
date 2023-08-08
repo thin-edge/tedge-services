@@ -147,6 +147,13 @@ The service definitions are also available via a tarball which can be manually i
     tar xzvf tedge-sysvinit.tar.gz -C /
     ```
 
+    **SysVinit (yocto)**
+
+    ```sh
+    curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-sysvinit-yocto/versions/latest/tedge-sysvinit-yocto.tar.gz'
+    tar xzvf tedge-sysvinit-yocto.tar.gz -C /
+    ```
+
     **OpenRC**
 
     ```sh
