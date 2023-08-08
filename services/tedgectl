@@ -64,16 +64,29 @@ manage_sysvinit() {
     command="$1"
     name="$2"
     case "$command" in
-        is_available) service --status-all ;;
+        is_available)
+            # service --status-all does not run on some systems (e.g. older yocto versions)
+            if command -V pidof >/dev/null 2>&1; then
+                [ "$(pidof /sbin/init)" = "1" ]
+            elif command -V grep >/dev/null 2>&1; then
+                /sbin/init --version | grep -qi sysv
+            else
+                /sbin/init --version >/dev/null
+            fi
+            ;;
         start) service "$name" start ;;
         stop) service "$name" stop ;;
         restart) service "$name" restart ;;
         enable)
-            update-rc.d "$name" defaults        # TODO check if it is required: install service before enabling
-            update-rc.d "$name" enable
+            update-rc.d "$name" defaults
+
+            # Not all sysvinit systems support the enable/disable command
+            update-rc.d "$name" enable 2>/dev/null ||:
             ;;
         disable)
-            update-rc.d "$name" disable
+            # Not all sysvinit systems support the enable/disable command
+            update-rc.d "$name" disable 2>/dev/null ||:
+
             update-rc.d "$name" remove
             ;;
         is_active|status) service "$name" status ;;
