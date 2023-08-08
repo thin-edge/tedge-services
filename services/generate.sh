@@ -44,11 +44,7 @@ generate_openrc() {
 generate_sysvinit() {
     mkdir -p sysvinit/init.d
     echo "[sysvinit] Generating service file: $NAME"
-    # option 1: use template which makes use of start-stop-daemon, but it is unclear if this is included in yocto
-    # execute_template "sysvinit/service.template" > "sysvinit/init.d/$NAME"
-
-    # option 2: use template which does not use start-stop-daemon
-    execute_template "sysvinit/service-yocto2.template" > "sysvinit/init.d/$NAME"
+    execute_template "sysvinit/service-start-stop-daemon.template" > "sysvinit/init.d/$NAME"
     chmod a+x "sysvinit/init.d/$NAME"
 }
 
