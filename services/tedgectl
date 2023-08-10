@@ -105,7 +105,7 @@ manage_sysvinit() {
             # Not all sysvinit systems support the enable/disable command
             update-rc.d "$name" disable 2>/dev/null ||:
 
-            update-rc.d "$name" remove
+            update-rc.d -f "$name" remove 2>/dev/null ||:
             ;;
         is_active|status)
             if command -V service >/dev/null 2>&1; then
