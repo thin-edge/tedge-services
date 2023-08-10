@@ -30,6 +30,11 @@ contents:
     file_info:
       mode: 0755
 
+  - src: ./services/tedgectl-all
+    dst: /usr/bin/
+    file_info:
+      mode: 0755
+
   - src: ./services/system.toml
     dst: /etc/tedge/system.toml
     type: config

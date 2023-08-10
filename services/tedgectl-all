@@ -1,0 +1,41 @@
+#!/bin/sh
+set -e
+
+do_action() {
+    common_command="$1"
+    for name in $SERVICES; do
+        if command -V "$name" >/dev/null 2>&1; then
+            tedgectl "$common_command" "$name"
+        fi
+    done
+}
+
+##############################
+# Main
+##############################
+
+SERVICES=${SERVICES:-"c8y-log-plugin c8y-configuration-plugin c8y-firmware-plugin"}
+
+COMMAND="$1"
+
+case "$COMMAND" in
+    enable)
+        do_action enable
+        ;;
+    start)
+        do_action start
+        ;;
+    disable)
+        do_action disable
+        ;;
+    stop)
+        do_action stop
+        ;;
+    restart)
+        do_action restart
+        ;;
+    *)
+        echo "Unknown command. Only enable,start,disable,stop,restart are supported" >&2
+        exit 1
+        ;;
+esac
