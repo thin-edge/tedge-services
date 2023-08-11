@@ -29,10 +29,18 @@ contents:
     file_info:
       mode: 0644
 
+  # required otherwise the original dir permissions are overridden
+  - dst: /etc/tedge
+    type: dir
+    file_info:
+      owner: tedge
+      mode: 0775
+
   - src: ./services/system.toml
     dst: /etc/tedge/system.toml
     type: config
     file_info:
+      owner: tedge
       mode: 0644
 
 scripts:
