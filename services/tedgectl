@@ -1,6 +1,14 @@
 #!/bin/sh
 set -e
 
+# Support loading settings from file
+# this allows users to control which service manager is used by default
+# to disable auto detection.
+if [ -f /etc/tedgectl/env ]; then
+    # shellcheck disable=SC1091
+    . /etc/tedgectl/env
+fi
+
 #
 # Detect service manager
 #

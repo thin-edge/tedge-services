@@ -1,0 +1,4 @@
+# You can manually control which service manager is used
+# by uncommenting the line below and adding one of the values:
+#   systemd,openrc,runit,systemd,sysvinit,s6_overlay,supervisord
+#SERVICE_MANAGER=
