@@ -6,6 +6,7 @@ thin-edge.io service file definitions for the following init systems:
 * openrc
 * runit
 * s6-overlay
+* supervisord
 
 This is a community driven repository where users are encouraged to create PRs to add support for any additional init system, or make changes to any of the existing definitions.
 
@@ -39,6 +40,7 @@ You must have already installed thin-edge.io and its components prior to install
 |tedge-openrc|[![Latest version of 'tedge-openrc' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/deb/tedge-openrc/latest/a=all;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/deb/tedge-openrc/latest/a=all;d=any-distro%252Fany-version;t=binary/)|
 |tedge-runit|[![Latest version of 'tedge-runit' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/deb/tedge-runit/latest/a=all;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/deb/tedge-runit/latest/a=all;d=any-distro%252Fany-version;t=binary/)|
 |tedge-s6overlay|[![Latest version of 'tedge-s6overlay' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/deb/tedge-s6overlay/latest/a=all;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/deb/tedge-s6overlay/latest/a=all;d=any-distro%252Fany-version;t=binary/)|
+|tedge-supervisord|[![Latest version of 'tedge-supervisord' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/deb/tedge-supervisord/latest/a=all;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/deb/tedge-supervisord/latest/a=all;d=any-distro%252Fany-version;t=binary/)|
 
 
 **Install instructions**
@@ -63,6 +65,9 @@ apt-get install tedge-runit
 
 # s6-overlay (docker friendly init system)
 apt-get install tedge-s6overlay
+
+# supervisord
+apt-get install tedge-supervisord
 ```
 
 ### RHEL/Fedora/RockyLinux
@@ -75,6 +80,7 @@ apt-get install tedge-s6overlay
 |tedge-openrc|[![Latest version of 'tedge-openrc' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/rpm/tedge-openrc/latest/a=noarch;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/rpm/tedge-openrc/latest/a=noarch;d=any-distro%252Fany-version;t=binary/)|
 |tedge-runit|[![Latest version of 'tedge-runit' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/rpm/tedge-runit/latest/a=noarch;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/rpm/tedge-runit/latest/a=noarch;d=any-distro%252Fany-version;t=binary/)|
 |tedge-s6overlay|[![Latest version of 'tedge-s6overlay' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/rpm/tedge-s6overlay/latest/a=noarch;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/rpm/tedge-s6overlay/latest/a=noarch;d=any-distro%252Fany-version;t=binary/)|
+|tedge-supervisord|[![Latest version of 'tedge-supervisord' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/rpm/tedge-supervisord/latest/a=noarch;d=any-distro%252Fany-version;t=binary/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/rpm/tedge-supervisord/latest/a=noarch;d=any-distro%252Fany-version;t=binary/)|
 
 Setup the repository using:
 
@@ -96,6 +102,9 @@ dnf install tedge-runit
 
 # s6-overlay (docker friendly init system)
 dnf install tedge-s6overlay
+
+# supervisord
+dnf install tedge-supervisord
 ```
 
 ### Alpine Linux
@@ -108,6 +117,7 @@ dnf install tedge-s6overlay
 |tedge-openrc|[![Latest version of 'tedge-openrc' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/alpine/tedge-openrc/latest/a=noarch;d=alpine%252Fany-version/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/alpine/tedge-openrc/latest/a=noarch;d=alpine%252Fany-version/)
 |tedge-runit|[![Latest version of 'tedge-runit' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/alpine/tedge-runit/latest/a=noarch;d=alpine%252Fany-version/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/alpine/tedge-runit/latest/a=noarch;d=alpine%252Fany-version/)
 |tedge-s6overlay|[![Latest version of 'tedge-s6overlay' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/alpine/tedge-s6overlay/latest/a=noarch;d=alpine%252Fany-version/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/alpine/tedge-s6overlay/latest/a=noarch;d=alpine%252Fany-version/)|
+|tedge-supervisord|[![Latest version of 'tedge-supervisord' @ Cloudsmith](https://api-prd.cloudsmith.io/v1/badges/version/thinedge/community/alpine/tedge-supervisord/latest/a=noarch;d=alpine%252Fany-version/?render=true&show_latest=true)](https://cloudsmith.io/~thinedge/repos/community/packages/detail/alpine/tedge-supervisord/latest/a=noarch;d=alpine%252Fany-version/)|
 
 
 **Install instructions**
@@ -132,6 +142,9 @@ apk add tedge-runit
 
 # s6-overlay (docker friendly init system)
 apk add tedge-s6overlay
+
+# supervisord
+apk add tedge-supervisord
 ```
 
 ### Other distributions / tarball
@@ -173,6 +186,13 @@ The service definitions are also available via a tarball which can be manually i
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-s6overlay/versions/latest/tedge-s6overlay.tar.gz'
     tar xzvf tedge-s6overlay.tar.gz -C /
+    ```
+
+    **supervisord**
+
+    ```sh
+    curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-supervisord/versions/latest/tedge-supervisord.tar.gz'
+    tar xzvf tedge-supervisord.tar.gz -C /
     ```
 
 2. Enable/start the services using the generic `tedgectl` script which in included in the tarball
