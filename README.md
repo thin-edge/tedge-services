@@ -48,26 +48,26 @@ You must have already installed thin-edge.io and its components prior to install
 Setup the repository using:
 
 ```sh
-curl -1sLf 'https://dl.cloudsmith.io/public/thinedge/community/setup.deb.sh' | bash
+curl -1sLf 'https://dl.cloudsmith.io/public/thinedge/community/setup.deb.sh' | sudo bash
 ```
 
 Then install your preferred init system service definition files:
 
 ```sh
 # sysvinit
-apt-get install tedge-sysvinit
+sudo apt-get install tedge-sysvinit
 
 # openrc
-apt-get install tedge-openrc
+sudo apt-get install tedge-openrc
 
 # runit
-apt-get install tedge-runit
+sudo apt-get install tedge-runit
 
 # s6-overlay (docker friendly init system)
-apt-get install tedge-s6overlay
+sudo apt-get install tedge-s6overlay
 
 # supervisord
-apt-get install tedge-supervisord
+sudo apt-get install tedge-supervisord
 ```
 
 ### RHEL/Fedora/RockyLinux
@@ -85,26 +85,26 @@ apt-get install tedge-supervisord
 Setup the repository using:
 
 ```sh
-curl -1sLf 'https://dl.cloudsmith.io/public/thinedge/community/setup.rpm.sh' | bash
+curl -1sLf 'https://dl.cloudsmith.io/public/thinedge/community/setup.rpm.sh' | sudo bash
 ```
 
 Then install your preferred init system service definition files:
 
 ```sh
 # sysvinit
-dnf install tedge-sysvinit
+sudo dnf install tedge-sysvinit
 
 # openrc
-dnf install tedge-openrc
+sudo dnf install tedge-openrc
 
 # runit
-dnf install tedge-runit
+sudo dnf install tedge-runit
 
 # s6-overlay (docker friendly init system)
-dnf install tedge-s6overlay
+sudo dnf install tedge-s6overlay
 
 # supervisord
-dnf install tedge-supervisord
+sudo dnf install tedge-supervisord
 ```
 
 ### Alpine Linux
@@ -132,19 +132,19 @@ Then install your preferred init system service definition files:
 
 ```sh
 # sysvinit
-apk add tedge-sysvinit
+sudo apk add tedge-sysvinit
 
 # openrc
-apk add tedge-openrc
+sudo apk add tedge-openrc
 
 # runit
-apk add tedge-runit
+sudo apk add tedge-runit
 
 # s6-overlay (docker friendly init system)
-apk add tedge-s6overlay
+sudo apk add tedge-s6overlay
 
 # supervisord
-apk add tedge-supervisord
+sudo apk add tedge-supervisord
 ```
 
 ### Other distributions / tarball
@@ -157,42 +157,42 @@ The service definitions are also available via a tarball which can be manually i
 
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-sysvinit/versions/latest/tedge-sysvinit.tar.gz'
-    tar xzvf tedge-sysvinit.tar.gz -C /
+    sudo tar xzvf tedge-sysvinit.tar.gz -C /
     ```
 
     **SysVinit (yocto)**
 
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-sysvinit-yocto/versions/latest/tedge-sysvinit-yocto.tar.gz'
-    tar xzvf tedge-sysvinit-yocto.tar.gz -C /
+    sudo tar xzvf tedge-sysvinit-yocto.tar.gz -C /
     ```
 
     **OpenRC**
 
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-openrc/versions/latest/tedge-openrc.tar.gz'
-    tar xzvf tedge-openrc.tar.gz -C /
+    sudo tar xzvf tedge-openrc.tar.gz -C /
     ```
 
     **runit**
 
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-runit/versions/latest/tedge-runit.tar.gz'
-    tar xzvf tedge-runit.tar.gz -C /
+    sudo tar xzvf tedge-runit.tar.gz -C /
     ```
 
     **s6-overlay**
 
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-s6overlay/versions/latest/tedge-s6overlay.tar.gz'
-    tar xzvf tedge-s6overlay.tar.gz -C /
+    sudo tar xzvf tedge-s6overlay.tar.gz -C /
     ```
 
     **supervisord**
 
     ```sh
     curl -O 'https://dl.cloudsmith.io/public/thinedge/community/raw/names/tedge-supervisord/versions/latest/tedge-supervisord.tar.gz'
-    tar xzvf tedge-supervisord.tar.gz -C /
+    sudo tar xzvf tedge-supervisord.tar.gz -C /
     ```
 
 2. Enable/start the services using the generic `tedgectl` script which in included in the tarball
