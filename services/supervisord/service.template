@@ -1,0 +1,7 @@
+[program:$NAME]
+command=/usr/bin/$COMMAND $COMMAND_ARGS
+user=$COMMAND_USER
+startsecs=5
+autostart=true
+redirect_stderr=true
+stdout_logfile=/var/log/%(program_name)s.log

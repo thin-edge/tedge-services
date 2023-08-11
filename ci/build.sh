@@ -12,6 +12,7 @@ For example, the following init systems are included (though more could be added
 * sysvinit
 * runit (void linux)
 * s6-overlay (for docker)
+* supervisord (python based supervisor)
 
 The tarball (.tar.gz) is also created by extracting the data tarball from the debian package (per init system).
 
@@ -113,3 +114,4 @@ build ./packages/sysvinit-yocto/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/openrc/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/runit/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/s6-overlay/nfpm.yaml "$OUTPUT_DIR"
+build ./packages/supervisord/nfpm.yaml "$OUTPUT_DIR"

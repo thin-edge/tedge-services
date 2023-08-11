@@ -29,3 +29,8 @@ services:
     build:
       dockerfile: images/runit/alpine-runit.dockerfile
       context: "."
+
+  tedge-supervisord:
+    build:
+      dockerfile: images/supervisord/alpine-supervisord.dockerfile
+      context: "."
