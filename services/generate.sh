@@ -84,6 +84,12 @@ generate_s6_overlay() {
     find "s6-overlay/s6-rc.d" -name run -exec chmod +x {} \;
 }
 
+generate_supervisord() {
+    mkdir -p supervisord/supervisord.d
+    echo "[supervisord] Generating service file: $NAME"
+    execute_template "supervisord/service.template" > "supervisord/conf.d/$NAME.conf"
+}
+
 generate_runit() {
     mkdir -p runit/runsvdir
     echo "[runit] Generating service files: $NAME"
@@ -118,6 +124,7 @@ do
             generate_sysvinit_yocto
             generate_s6_overlay
             generate_runit
+            generate_supervisord
         
         else
             echo "Missing some mandatory variables. NAME and COMMAND must be set in template input file: $f" >&2

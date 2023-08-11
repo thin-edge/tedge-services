@@ -16,8 +16,10 @@ if [ -z "$SERVICE_MANAGER" ]; then
         SERVICE_MANAGER="s6_overlay"
     elif command -V runit >/dev/null 2>&1; then
         SERVICE_MANAGER="runit"
+    elif command -V supervisorctl >/dev/null 2>&1; then
+        SERVICE_MANAGER="supervisord"
     else
-        echo "Could not detect the init system. Only openrc,runit,systemd,sysvinit,s6-overlay are supported" >&2
+        echo "Could not detect the init system. Only openrc,runit,systemd,sysvinit,s6_overlay,supervisord are supported" >&2
         exit 1
     fi
 fi
@@ -144,6 +146,25 @@ manage_s6_overlay() {
     esac
 }
 
+manage_supervisord() {
+    command="$1"
+    name="$2"
+
+    case "$command" in
+        is_available) supervisorctl status >/dev/nul 2>&1 ;;
+        start) supervisorctl start "$name" ;;
+        stop) supervisorctl stop "$name" ;;
+        restart) supervisorctl restart "$name" ;;
+        enable) supervisorctl add "$name" ;;
+        disable) supervisorctl remove "$name" ;;
+        is_active|status) supervisorctl status "$name";;
+        restart_device)
+            shutdown -r now
+            ;;
+        *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
+    esac
+}
+
 manage_runit() {
     command="$1"
     name="$2"
@@ -206,8 +227,11 @@ case "$SERVICE_MANAGER" in
     runit)
         manage_runit "$COMMAND" "$SERVICE_NAME"
         ;;
+    supervisord)
+        manage_supervisord "$COMMAND" "$SERVICE_NAME"
+        ;;
     *)
-        echo "Unknown init system. Only openrc,runit,systemd,sysvinit,s6-overlay are supported" >&2
+        echo "Unknown init system. Only openrc,runit,systemd,sysvinit,s6_overlay,supervisord are supported" >&2
         exit 1
         ;;
 esac
