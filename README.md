@@ -125,7 +125,7 @@ dnf install tedge-supervisord
 Setup the repository using:
 
 ```sh
-curl -1sLf 'https://dl.cloudsmith.io/public/thinedge/community/setup.apk.sh' | bash
+curl -1sLf 'https://dl.cloudsmith.io/public/thinedge/community/setup.alpine.sh' | sudo bash
 ```
 
 Then install your preferred init system service definition files:
