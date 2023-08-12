@@ -1,0 +1,10 @@
+NAME=mosquitto
+COMMAND=/usr/sbin/mosquitto
+COMMAND_ARGS="-c /etc/mosquitto/mosquitto.conf"
+COMMAND_USER=root
+DESCRIPTION="MQTT broker"
+SHORTNAME=mosquitto
+
+# Only use for s6_overlay service definitions
+# as mosquitto generally has definitions available in other init systems
+TEMPLATE_FOR="s6_overlay runit supervisord"
