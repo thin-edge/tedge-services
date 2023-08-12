@@ -1,6 +1,6 @@
 # Configuration file for /etc/init.d/c8y-log-plugin
 
-# Additional arguments to pass to c8y-log-plugin.
+# Additional arguments to pass to /usr/bin/c8y-log-plugin.
 #command_args=
 
 # Overwrite user

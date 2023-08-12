@@ -1,5 +1,5 @@
 NAME=c8y-configuration-plugin
-COMMAND=c8y-configuration-plugin
+COMMAND=/usr/bin/c8y-configuration-plugin
 #COMMAND_ARGS=
 COMMAND_USER=root
 DESCRIPTION="Thin-edge device configuration management for Cumulocity"

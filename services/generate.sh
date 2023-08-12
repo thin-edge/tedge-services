@@ -8,13 +8,13 @@ execute_template() {
     input_file="$1"
 
     sed \
-        -e "s/\\\$NAME/${NAME:-}/g" \
-        -e "s/\\\$LOG_NAME/${NAME:-}/g" \
-        -e "s/\\\$COMMAND_ARGS/${COMMAND_ARGS:-}/g" \
-        -e "s/\\\$COMMAND_USER/${COMMAND_USER:-}/g" \
-        -e "s/\\\$COMMAND/${COMMAND:-}/g" \
-        -e "s/\\\$SHORTNAME/${SHORTNAME:-}/g" \
-        -e "s/\\\$DESCRIPTION/${DESCRIPTION:-}/g" \
+        -e "s|\\\$NAME|${NAME:-}|g" \
+        -e "s|\\\$LOG_NAME|${NAME:-}|g" \
+        -e "s|\\\$COMMAND_ARGS|${COMMAND_ARGS:-}|g" \
+        -e "s|\\\$COMMAND_USER|${COMMAND_USER:-}|g" \
+        -e "s|\\\$COMMAND|${COMMAND:-}|g" \
+        -e "s|\\\$SHORTNAME|${SHORTNAME:-}|g" \
+        -e "s|\\\$DESCRIPTION|${DESCRIPTION:-}|g" \
         "$input_file"
 }
 
@@ -22,13 +22,13 @@ execute_template_inplace() {
     input_file="$1"
 
     sed -i \
-        -e "s/\\\$NAME/${NAME:-}/g" \
-        -e "s/\\\$LOG_NAME/${NAME:-}/g" \
-        -e "s/\\\$COMMAND_ARGS/${COMMAND_ARGS:-}/g" \
-        -e "s/\\\$COMMAND_USER/${COMMAND_USER:-}/g" \
-        -e "s/\\\$COMMAND/${COMMAND:-}/g" \
-        -e "s/\\\$SHORTNAME/${SHORTNAME:-}/g" \
-        -e "s/\\\$DESCRIPTION/${DESCRIPTION:-}/g" \
+        -e "s|\\\$NAME|${NAME:-}|g" \
+        -e "s|\\\$LOG_NAME|${NAME:-}|g" \
+        -e "s|\\\$COMMAND_ARGS|${COMMAND_ARGS:-}|g" \
+        -e "s|\\\$COMMAND_USER|${COMMAND_USER:-}|g" \
+        -e "s|\\\$COMMAND|${COMMAND:-}|g" \
+        -e "s|\\\$SHORTNAME|${SHORTNAME:-}|g" \
+        -e "s|\\\$DESCRIPTION|${DESCRIPTION:-}|g" \
         "$input_file"
 }
 
@@ -107,6 +107,7 @@ do
         COMMAND_ARGS=""
         COMMAND_USER=""
         DESCRIPTION=""
+        TEMPLATE_FOR=""
         SHORTNAME="${NAME:-}"
 
         # Source template variables
@@ -116,16 +117,36 @@ do
         # Set default name if not set
         SHORTNAME="${SHORTNAME:-$COMMAND}"
 
+        if [ -z "$TEMPLATE_FOR" ]; then
+            TEMPLATE_FOR="openrc sysvinit sysvinit s6_overlay runit supervisord"
+        fi
+
         # Validate mandatory arguments
         if [ -n "$NAME" ] && [ -n "$COMMAND" ]; then
             echo -e "\nGenerating service files using: file = $f - name=$NAME, command=$COMMAND"
-            generate_openrc
-            generate_sysvinit
-            generate_sysvinit_yocto
-            generate_s6_overlay
-            generate_runit
-            generate_supervisord
-        
+
+            for template_name in $TEMPLATE_FOR; do
+                case "$template_name" in
+                    openrc)
+                        generate_openrc
+                        ;;
+                    sysvinit)
+                        generate_sysvinit
+                        ;;
+                    sysvinit-yocto)
+                        generate_sysvinit_yocto
+                        ;;
+                    s6_overlay)
+                        generate_s6_overlay
+                        ;;
+                    runit)
+                        generate_runit
+                        ;;
+                    supervisord)
+                        generate_supervisord
+                        ;;
+                esac
+            done
         else
             echo "Missing some mandatory variables. NAME and COMMAND must be set in template input file: $f" >&2
             exit 1

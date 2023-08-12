@@ -1,6 +1,6 @@
 # Configuration file for /etc/init.d/tedge-mapper-aws
 
-# Additional arguments to pass to tedge-mapper.
+# Additional arguments to pass to /usr/bin/tedge-mapper.
 #command_args=
 
 # Overwrite user

@@ -43,7 +43,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 DESC="$DESCRIPTION"
-DAEMON=/usr/bin/$COMMAND
+DAEMON=$COMMAND
 DAEMON_ARGS="$COMMAND_ARGS"
 PIDFILE=/var/run/$NAME.pid
 

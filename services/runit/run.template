@@ -12,4 +12,4 @@ if [ -n "$DAEMON_USER" ]; then
     chown "$DAEMON_USER" "$PIDFILE"
     chown "$DAEMON_USER" "/var/log/$NAME.log"
 fi
-exec chpst -u "$DAEMON_USER" "/usr/bin/$COMMAND" $COMMAND_ARGS >> "$LOG_FILE" 2>&1
+exec chpst -u "$DAEMON_USER" "$COMMAND" $COMMAND_ARGS >> "$LOG_FILE" 2>&1

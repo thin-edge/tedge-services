@@ -19,7 +19,7 @@ set -e
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
-test -x "/usr/bin/$COMMAND" || exit 0
+test -x "$COMMAND" || exit 0
 
 # For configuration of the init script use the file
 # /etc/default/$NAME, do not edit this init script.
@@ -35,7 +35,7 @@ export TEDGE_RUN_LOCK_FILES="false"
 
 [ -e "/etc/default/$NAME" ] && . "/etc/default/$NAME"
 
-DAEMON=/usr/bin/$COMMAND
+DAEMON=$COMMAND
 PIDFILE=/run/lock/$NAME.lock
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
