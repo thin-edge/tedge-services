@@ -22,7 +22,7 @@ if [ -z "$SERVICE_MANAGER" ]; then
         SERVICE_MANAGER="sysvinit"
     elif [ -f /command/s6-rc ]; then
         SERVICE_MANAGER="s6_overlay"
-    elif command -V runit >/dev/null 2>&1; then
+    elif command -V runsv >/dev/null 2>&1; then
         SERVICE_MANAGER="runit"
     elif command -V supervisorctl >/dev/null 2>&1; then
         SERVICE_MANAGER="supervisord"
