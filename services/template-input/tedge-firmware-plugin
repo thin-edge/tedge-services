@@ -1,5 +1,5 @@
 NAME=c8y-firmware-plugin
-COMMAND=c8y-firmware-plugin
+COMMAND=/usr/bin/c8y-firmware-plugin
 #COMMAND_ARGS=
 COMMAND_USER=tedge
 DESCRIPTION="Thin-edge device firmware management for Cumulocity"

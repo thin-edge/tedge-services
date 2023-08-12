@@ -1,5 +1,5 @@
 NAME=tedge-mapper-az
-COMMAND=tedge-mapper
+COMMAND=/usr/bin/tedge-mapper
 COMMAND_ARGS=az
 COMMAND_USER=tedge
 DESCRIPTION="tedge-mapper-az checks Thin Edge JSON measurements and forwards to Azure IoT Hub"

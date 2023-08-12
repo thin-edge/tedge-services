@@ -1,5 +1,5 @@
 NAME=tedge-agent
-COMMAND=tedge-agent
+COMMAND=/usr/bin/tedge-agent
 COMMAND_USER=
 COMMAND_ARGS=
 COMMAND_USER=tedge
