@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
-TMPDIR=/tmp/tedge
-LOGFILE=/tmp/tedge/install-services.log
+TMPDIR=/tmp/tedge-services
+LOGFILE=/tmp/tedge-services/install.log
 PACKAGE_REPO="community"
 INIT_SYSTEM="${INIT_SYSTEM:-}"
 
