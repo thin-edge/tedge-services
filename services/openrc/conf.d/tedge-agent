@@ -1,6 +1,6 @@
 # Configuration file for /etc/init.d/tedge-agent
 
-# Additional arguments to pass to tedge-agent.
+# Additional arguments to pass to /usr/bin/tedge-agent.
 #command_args=
 
 # Overwrite user
