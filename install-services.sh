@@ -4,7 +4,6 @@ set -e
 TMPDIR=/tmp/tedge-services
 LOGFILE=/tmp/tedge-services/install.log
 PACKAGE_REPO="community"
-INIT_SYSTEM="${INIT_SYSTEM:-}"
 
 SUPPORTED_TYPES="openrc,s6_overlay,supervisord,sysvinit,sysvinit-yocto"
 
@@ -288,7 +287,6 @@ main() {
         fi
     fi
 
-    INIT_SYSTEM=
     if [ -z "$INIT_SYSTEM" ]; then
         INIT_SYSTEM=$(get_service_manager)
     fi
@@ -376,8 +374,8 @@ main() {
 
 # Support reading setting from environment variables
 DRY_RUN=${DRY_RUN:-}
-VERSION=${VERSION:-}
 PACKAGE_MANAGER="${PACKAGE_MANAGER:-}"
+INIT_SYSTEM="${INIT_SYSTEM:-}"
 
 while [ $# -gt 0 ]; do
     case $1 in
