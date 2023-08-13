@@ -359,13 +359,13 @@ main() {
         echo "You can manage the services via the tedgectl utility"
         echo
         echo "Enable a service"
-        echo "  tedgectl enable mosquitto"
+        echo "  tedgectl enable <service>"
         echo
         echo "Start a service"
-        echo "  tedgectl start mosquitto"
+        echo "  tedgectl start <service>"
         echo
         echo "Stop a service"
-        echo "  tedgectl stop mosquitto"
+        echo "  tedgectl stop <service>"
         echo
         echo "You can go to our documentation to find next steps: https://thin-edge.github.io/thin-edge.io/start/getting-started"
     fi
