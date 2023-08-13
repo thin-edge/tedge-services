@@ -5,7 +5,7 @@ TMPDIR=/tmp/tedge-services
 LOGFILE=/tmp/tedge-services/install.log
 PACKAGE_REPO="community"
 
-SUPPORTED_TYPES="openrc,s6_overlay,supervisord,sysvinit,sysvinit-yocto"
+SUPPORTED_TYPES="openrc,runit,s6_overlay,supervisord,sysvinit,sysvinit-yocto"
 
 # Set shell used by the script (can be overwritten during dry run mode)
 sh_c='sh -c'
@@ -15,7 +15,7 @@ usage() {
 Install thin-edge.io service definitions on Linux distributions that don't have SystemD installed
 
 USAGE:
-    $0 [openrc|s6_overlay|supervisord|sysvinit|sysvinit-yocto] [--package-manager <apt|apk|dnf|microdnf|zypper|tarball>]
+    $0 [openrc|runit|s6_overlay|supervisord|sysvinit|sysvinit-yocto] [--package-manager <apt|apk|dnf|microdnf|zypper|tarball>]
 
     List available init system types
     $0 --list
@@ -147,7 +147,7 @@ download_file() {
     printf 'Downloading %s...' "$url"
 
     if [ ! -d "$TMPDIR" ]; then
-        mkdir -p "$TMPDIR"
+        $sh_c "mkdir -p $TMPDIR"
     fi
 
     # Prefer curl over wget as docs instruct the user to download this script using curl
@@ -258,12 +258,13 @@ get_service_manager() {
 }
 
 main() {
+    configure_shell
+
     if [ -d "$TMPDIR" ]; then
-        rm -Rf "$TMPDIR"
+        $sh_c "rm -Rf $TMPDIR"
     fi
     mkdir -p "$TMPDIR"
-
-    configure_shell
+    touch "$LOGFILE" && chmod 0666 "$LOGFILE"
 
     echo "Welcome to the thin-edge.io community!"
     echo
@@ -351,7 +352,7 @@ main() {
         trap - EXIT
 
         # Only delete when everything was ok to help with debugging
-        rm -Rf "$TMPDIR"
+        $sh_c "rm -Rf $TMPDIR"
 
         echo
         echo "The $INIT_SYSTEM service definitions for thin-edge.io have been installed on your system!"
