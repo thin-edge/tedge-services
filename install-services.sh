@@ -41,7 +41,7 @@ print_debug() {
     echo
     echo "--------------- machine details ---------------------"
     echo "date:           $(date || true)"
-    echo "tedge:          $VERSION"
+    echo "tedge:          $(tedge --version 2>/dev/null || true)"
     echo "Machine:        $(uname -a || true)"
     echo "Architecture:   $(dpkg --print-architecture 2>/dev/null || true)"
     if command_exists "lsb_release"; then
