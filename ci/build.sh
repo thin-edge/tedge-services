@@ -86,7 +86,19 @@ build() {
     echo "----------------------------------------"
 
     for package_type in "${PACKAGE_TYPES[@]}"; do
-        nfpm package --config "$nfpm_file" -p "$package_type" -t "$output_dir"
+        PACKAGE_VERSION=""
+        RELEASE=""
+        case "$package_type" in
+            deb|rpm)
+                PACKAGE_VERSION="${SEMVER//-rc/~}"
+                ;;
+            apk)
+                PACKAGE_VERSION="${SEMVER//\-/_}"
+                RELEASE="r0"
+                ;;
+        esac
+        echo "Packaging $package_type using version $PACKAGE_VERSION"
+        env SEMVER="$PACKAGE_VERSION" RELEASE="$RELEASE" nfpm package --config "$nfpm_file" -p "$package_type" -t "$output_dir"
     done
 
     # create tarball (use deb file as the reference)
@@ -96,7 +108,7 @@ build() {
         echo "WARNING: Could not find the debian file. dir=$output_dir" >&2
     fi
 
-    TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g')"
+    TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g' | sed 's/~/-rc/g')"
     ar x "$DEB_FILE" data.tar.gz
     mv data.tar.gz "$TARBALL"
     echo "created tarball: $TARBALL"
