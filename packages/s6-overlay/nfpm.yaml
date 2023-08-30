@@ -4,6 +4,7 @@ name: tedge-s6overlay
 arch: all
 platform: linux
 version: ${SEMVER}
+release: ${RELEASE}
 section: misc
 priority: optional
 maintainer: thin-edge.io <thin-edge@thin-edge.io>
