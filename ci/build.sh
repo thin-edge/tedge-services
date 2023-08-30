@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 # -----------------------------------------------
 # Build service files
@@ -90,14 +90,16 @@ build() {
         RELEASE=""
         case "$package_type" in
             deb|rpm)
-                PACKAGE_VERSION="${SEMVER//-rc/~}"
+                # shellcheck disable=SC2001
+                PACKAGE_VERSION="$(echo "$SEMVER" | sed 's/\-rc/~/g')"
                 ;;
             apk)
-                PACKAGE_VERSION="${SEMVER//\-/_}"
+                # shellcheck disable=SC2001
+                PACKAGE_VERSION="$(echo "$SEMVER" | sed 's/\-/_/g')"
                 RELEASE="r0"
                 ;;
         esac
-        echo "Packaging $package_type using version $PACKAGE_VERSION"
+        echo "Packaging $package_type using version $PACKAGE_VERSION (SEMVER=$SEMVER)"
         env SEMVER="$PACKAGE_VERSION" RELEASE="$RELEASE" nfpm package --config "$nfpm_file" -p "$package_type" -t "$output_dir"
     done
 
@@ -108,7 +110,7 @@ build() {
         echo "WARNING: Could not find the debian file. dir=$output_dir" >&2
     fi
 
-    TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g' | sed 's/~/-rc/g')"
+    TARBALL="$(echo "${DEB_FILE%.*}.tar.gz" | sed 's/_all//g' | sed 's/\~/-rc/g')"
     ar x "$DEB_FILE" data.tar.gz
     mv data.tar.gz "$TARBALL"
     echo "created tarball: $TARBALL"
