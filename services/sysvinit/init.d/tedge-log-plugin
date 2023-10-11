@@ -1,9 +1,9 @@
 #!/bin/sh
-#/etc/init.d/c8y-log-plugin: Thin-edge logfile retriever for Cumulocity
+#/etc/init.d/tedge-log-plugin: thin-edge.io log file retriever
 
 ### BEGIN INIT INFO
-# Provides:          c8y-log-plugin
-# Short-Description: Thin-edge logfile retriever for Cumulocity
+# Provides:          tedge-log-plugin
+# Short-Description: thin-edge.io log file retriever
 # Required-Start:    $all
 # Required-Stop:     $all
 # Should-Start:      
@@ -19,24 +19,24 @@ set -e
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
-test -x "/usr/bin/c8y-log-plugin" || exit 0
+test -x "/usr/bin/tedge-log-plugin" || exit 0
 
 # For configuration of the init script use the file
-# /etc/default/c8y-log-plugin, do not edit this init script.
+# /etc/default/tedge-log-plugin, do not edit this init script.
 
-# Set run_service to 1 to start c8y-log-plugin or 0 to disable it.
+# Set run_service to 1 to start tedge-log-plugin or 0 to disable it.
 run_service=1
 
 DAEMON_ARGS=""
 DAEMON_USER="root"
-LOG_FILE=/var/log/c8y-log-plugin.log
+LOG_FILE=/var/log/tedge-log-plugin.log
 
 export TEDGE_RUN_LOCK_FILES="false"
 
-[ -e "/etc/default/c8y-log-plugin" ] && . "/etc/default/c8y-log-plugin"
+[ -e "/etc/default/tedge-log-plugin" ] && . "/etc/default/tedge-log-plugin"
 
-DAEMON=/usr/bin/c8y-log-plugin
-PIDFILE=/run/lock/c8y-log-plugin.lock
+DAEMON=/usr/bin/tedge-log-plugin
+PIDFILE=/run/lock/tedge-log-plugin.lock
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 
@@ -75,7 +75,7 @@ fi
 do_start() {
     if [ $run_service = 1 ]
     then
-        log_begin_msg "Starting c8y-log-plugin daemon..."
+        log_begin_msg "Starting tedge-log-plugin daemon..."
 
         # Create log file with given user so it can write to it (for non-root users)
         touch "$LOG_FILE"
@@ -92,7 +92,7 @@ do_start() {
 do_stop() {
     if [ $run_service = 1 ]
     then
-        log_begin_msg "Stopping c8y-log-plugin daemon..."
+        log_begin_msg "Stopping tedge-log-plugin daemon..."
 
         if start-stop-daemon --stop --quiet --oknodo --retry "$STOP_RETRY_SCHEDULE" --pidfile "${PIDFILE}" --user "${DAEMON_USER}"; then
             log_end_msg 0
@@ -119,7 +119,7 @@ case "$1" in
 
   try-restart|force-reload)
       if [ $run_service = 0 ]; then exit 0; fi
-    log_daemon_msg "Restarting c8y-log-plugin"
+    log_daemon_msg "Restarting tedge-log-plugin"
     # force-reload is the same as reload or try-restart according
     # to its definition, the reload is not implemented here, so
     # force-reload is the alias of try-restart here, but it should
@@ -134,7 +134,7 @@ case "$1" in
     ;;
 
   *)
-    echo "Usage: /etc/init.d/c8y-log-plugin {start|stop|status|restart|try-restart|force-reload}" >&2
+    echo "Usage: /etc/init.d/tedge-log-plugin {start|stop|status|restart|try-restart|force-reload}" >&2
     exit 1
 
 esac

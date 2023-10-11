@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          c8y-log-plugin
+# Provides:          tedge-log-plugin
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
@@ -10,11 +10,11 @@
 ### END INIT INFO
 
 dir="/var"
-DAEMON="/usr/bin/c8y-log-plugin"
+DAEMON="/usr/bin/tedge-log-plugin"
 DAEMON_USER="root"
 DAEMON_ARGS=""
 
-name="c8y-log-plugin"
+name="tedge-log-plugin"
 PIDFILE=/run/lock/$name.lock
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
@@ -61,7 +61,7 @@ is_running() {
     # shellcheck disable=SC2009
     # Use ps/grep fallback as busybox does not support the "ps -p" option
     if command -V pidof >/dev/null 2>&1; then
-        pidof c8y-log-plugin >/dev/null
+        pidof tedge-log-plugin >/dev/null
     else
         PROCESSES=$(ps -x || ps)
         [ -f "$PIDFILE" ] && (echo "$PROCESSES" | grep "^[[:blank:]]*$(get_pid)" >/dev/null 2>&1)

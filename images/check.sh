@@ -33,7 +33,7 @@ start_enable tedge-agent
 #start_enable tedge-mapper-c8y "tedge-mapper c8y"
 #start_enable c8y-configuration-plugin
 #start_enable c8y-firmware-plugin
-#start_enable c8y-log-plugin
+#start_enable tedge-log-plugin
 
 echo ""
 echo "Tests passed"
