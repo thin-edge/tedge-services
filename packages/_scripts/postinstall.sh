@@ -38,9 +38,9 @@ if command -V c8y-configuration-plugin >/dev/null 2>&1; then
     tedgectl start c8y-configuration-plugin 2>/dev/null ||:
 fi
 
-if command -V c8y-log-plugin >/dev/null 2>&1; then
-    tedgectl enable c8y-log-plugin ||:
-    tedgectl start c8y-log-plugin 2>/dev/null ||:
+if command -V tedge-log-plugin >/dev/null 2>&1; then
+    tedgectl enable tedge-log-plugin ||:
+    tedgectl start tedge-log-plugin 2>/dev/null ||:
 fi
 
 if command -V c8y-firmware-plugin >/dev/null 2>&1; then
