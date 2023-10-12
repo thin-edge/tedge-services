@@ -2,6 +2,7 @@ NAME=mosquitto
 COMMAND=/usr/sbin/mosquitto
 COMMAND_ARGS="-c /etc/mosquitto/mosquitto.conf"
 COMMAND_USER=root
+ENV_ENABLE_SERVICE=SERVICE_MOSQUITTO
 DESCRIPTION="MQTT broker"
 SHORTNAME=mosquitto
 
