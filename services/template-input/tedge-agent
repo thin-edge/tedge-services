@@ -3,4 +3,5 @@ COMMAND=/usr/bin/tedge-agent
 COMMAND_USER=
 COMMAND_ARGS=
 COMMAND_USER=tedge
+ENV_ENABLE_SERVICE=SERVICE_TEDGE_AGENT
 DESCRIPTION="tedge-agent is a thin-edge.io component to support operations"

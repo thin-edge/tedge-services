@@ -2,4 +2,5 @@ NAME=tedge-log-plugin
 COMMAND=/usr/bin/tedge-log-plugin
 #COMMAND_ARGS=
 COMMAND_USER=root
+ENV_ENABLE_SERVICE=SERVICE_TEDGE_LOG_PLUGIN
 DESCRIPTION="thin-edge.io log file retriever"

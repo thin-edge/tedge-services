@@ -2,5 +2,6 @@ NAME=tedge-mapper-az
 COMMAND=/usr/bin/tedge-mapper
 COMMAND_ARGS=az
 COMMAND_USER=tedge
+ENV_ENABLE_SERVICE=SERVICE_TEDGE_MAPPER_AZ
 DESCRIPTION="tedge-mapper-az checks Thin Edge JSON measurements and forwards to Azure IoT Hub"
 SHORTNAME=mapper-az

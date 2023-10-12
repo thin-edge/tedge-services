@@ -13,6 +13,7 @@ execute_template() {
         -e "s|\\\$COMMAND_ARGS|${COMMAND_ARGS:-}|g" \
         -e "s|\\\$COMMAND_USER|${COMMAND_USER:-}|g" \
         -e "s|\\\$COMMAND|${COMMAND:-}|g" \
+        -e "s|\\\$ENV_ENABLE_SERVICE|${ENV_ENABLE_SERVICE:-}|g" \
         -e "s|\\\$SHORTNAME|${SHORTNAME:-}|g" \
         -e "s|\\\$DESCRIPTION|${DESCRIPTION:-}|g" \
         "$input_file"
@@ -27,6 +28,7 @@ execute_template_inplace() {
         -e "s|\\\$COMMAND_ARGS|${COMMAND_ARGS:-}|g" \
         -e "s|\\\$COMMAND_USER|${COMMAND_USER:-}|g" \
         -e "s|\\\$COMMAND|${COMMAND:-}|g" \
+        -e "s|\\\$ENV_ENABLE_SERVICE|${ENV_ENABLE_SERVICE:-}|g" \
         -e "s|\\\$SHORTNAME|${SHORTNAME:-}|g" \
         -e "s|\\\$DESCRIPTION|${DESCRIPTION:-}|g" \
         "$input_file"

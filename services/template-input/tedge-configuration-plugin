@@ -2,4 +2,5 @@ NAME=c8y-configuration-plugin
 COMMAND=/usr/bin/c8y-configuration-plugin
 #COMMAND_ARGS=
 COMMAND_USER=root
+ENV_ENABLE_SERVICE=SERVICE_C8Y_CONFIGURATION_PLUGIN
 DESCRIPTION="Thin-edge device configuration management for Cumulocity"
