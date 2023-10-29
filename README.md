@@ -215,8 +215,8 @@ The service definitions are also available via a tarball which can be manually i
     tedgectl enable tedge-agent
     tedgectl start tedge-agent
 
-    tedgectl enable c8y-configuration-plugin
-    tedgectl start c8y-configuration-plugin
+    tedgectl enable tedge-configuration-plugin
+    tedgectl start tedge-configuration-plugin
 
     tedgectl enable tedge-log-plugin
     tedgectl start tedge-log-plugin

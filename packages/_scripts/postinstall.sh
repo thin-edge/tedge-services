@@ -33,9 +33,9 @@ if command -V tedge-agent >/dev/null 2>&1; then
     tedgectl start tedge-agent 2>/dev/null ||:
 fi
 
-if command -V c8y-configuration-plugin >/dev/null 2>&1; then
-    tedgectl enable c8y-configuration-plugin ||:
-    tedgectl start c8y-configuration-plugin 2>/dev/null ||:
+if command -V tedge-configuration-plugin >/dev/null 2>&1; then
+    tedgectl enable tedge-configuration-plugin ||:
+    tedgectl start tedge-configuration-plugin 2>/dev/null ||:
 fi
 
 if command -V tedge-log-plugin >/dev/null 2>&1; then
