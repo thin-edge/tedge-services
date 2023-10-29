@@ -1,6 +1,6 @@
-# Configuration file for /etc/init.d/c8y-configuration-plugin
+# Configuration file for /etc/init.d/tedge-configuration-plugin
 
-# Additional arguments to pass to /usr/bin/c8y-configuration-plugin.
+# Additional arguments to pass to /usr/bin/tedge-configuration-plugin.
 #command_args=
 
 # Overwrite user
