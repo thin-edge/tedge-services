@@ -4,10 +4,15 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 pushd "$SCRIPT_DIR" || exit 1
 
+SED="sed"
+if command -v gsed; then
+    SED="gsed"
+fi
+
 execute_template() {
     input_file="$1"
 
-    sed \
+    "$SED" \
         -e "s|\\\$NAME|${NAME:-}|g" \
         -e "s|\\\$LOG_NAME|${NAME:-}|g" \
         -e "s|\\\$COMMAND_ARGS|${COMMAND_ARGS:-}|g" \
@@ -22,7 +27,7 @@ execute_template() {
 execute_template_inplace() {
     input_file="$1"
 
-    sed -i \
+    "$SED" -i \
         -e "s|\\\$NAME|${NAME:-}|g" \
         -e "s|\\\$LOG_NAME|${NAME:-}|g" \
         -e "s|\\\$COMMAND_ARGS|${COMMAND_ARGS:-}|g" \
