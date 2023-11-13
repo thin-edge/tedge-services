@@ -1,0 +1,14 @@
+[Unit]
+Description=Thin-edge device configuration management
+After=syslog.target network.target mosquitto.service
+
+[Service]
+User=root
+RuntimeDirectory=tedge-configuration-plugin
+ExecStart=/usr/bin/tedge-configuration-plugin 
+Restart=on-failure
+RestartPreventExitStatus=255
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

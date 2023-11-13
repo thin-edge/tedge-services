@@ -1,0 +1,14 @@
+[Unit]
+Description=tedge-mapper-az checks Thin Edge JSON measurements and forwards to Azure IoT Hub
+After=syslog.target network.target mosquitto.service
+
+[Service]
+User=tedge
+RuntimeDirectory=tedge-mapper-az
+ExecStart=/usr/bin/tedge-mapper az
+Restart=on-failure
+RestartPreventExitStatus=255
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

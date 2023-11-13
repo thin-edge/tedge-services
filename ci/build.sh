@@ -123,6 +123,7 @@ if [ -n "$OUTPUT_DIR" ] && [ "$OUTPUT_DIR" != "." ] && [ "$OUTPUT_DIR" != ".." ]
 fi
 
 # Build packages for each init system
+build ./packages/systemd/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/sysvinit/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/sysvinit-yocto/nfpm.yaml "$OUTPUT_DIR"
 build ./packages/openrc/nfpm.yaml "$OUTPUT_DIR"
