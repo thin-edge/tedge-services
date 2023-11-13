@@ -1,0 +1,14 @@
+[Unit]
+Description=$DESCRIPTION
+After=syslog.target network.target mosquitto.service
+
+[Service]
+User=$COMMAND_USER
+RuntimeDirectory=$NAME
+ExecStart=$COMMAND $COMMAND_ARGS
+Restart=on-failure
+RestartPreventExitStatus=255
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

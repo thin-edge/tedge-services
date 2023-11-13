@@ -48,6 +48,13 @@ generate_openrc() {
     chmod a+x "openrc/init.d/$NAME"
 }
 
+generate_systemd() {
+    mkdir -p systemd/system
+    echo "[sysvinit] Generating service file: $NAME"
+    execute_template "systemd/service.template" > "systemd/system/$NAME.service"
+    chmod a+x "systemd/system/$NAME.service"
+}
+
 generate_sysvinit() {
     mkdir -p sysvinit/init.d
     echo "[sysvinit] Generating service file: $NAME"
@@ -125,7 +132,7 @@ do
         SHORTNAME="${SHORTNAME:-$COMMAND}"
 
         if [ -z "$TEMPLATE_FOR" ]; then
-            TEMPLATE_FOR="openrc sysvinit sysvinit s6_overlay runit supervisord"
+            TEMPLATE_FOR="systemd openrc sysvinit sysvinit s6_overlay runit supervisord"
         fi
 
         # Validate mandatory arguments
@@ -134,6 +141,9 @@ do
 
             for template_name in $TEMPLATE_FOR; do
                 case "$template_name" in
+                    systemd)
+                        generate_systemd
+                        ;;
                     openrc)
                         generate_openrc
                         ;;

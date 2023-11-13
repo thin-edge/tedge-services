@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://nfpm.goreleaser.com/static/schema.json
+---
+name: tedge-systemd
+arch: all
+platform: linux
+version: ${SEMVER}
+release: ${RELEASE}
+section: misc
+priority: optional
+maintainer: thin-edge.io <thin-edge@thin-edge.io>
+description: thin-edge.io systemd service definitions
+vendor: thin-edge.io
+homepage: https://github.com/thin-edge/thin-edge.io
+license: Apache License 2.0
+apk:
+  # Use noarch instead of "all"
+  arch: noarch
+contents:
+  - src: ./services/systemd/system/*
+    dst: /lib/systemd/system/
+    file_info:
+      mode: 0644
+
+  - src: ./services/tedgectl
+    dst: /usr/bin/
+    file_info:
+      mode: 0755
+
+  - src: ./services/tedgectl_env
+    dst: /etc/tedgectl/env
+    type: config
+    file_info:
+      mode: 0644
+
+  # required otherwise the original dir permissions are overridden
+  - dst: /etc/tedge
+    type: dir
+    file_info:
+      owner: tedge
+      mode: 0775
+
+  # exclude as thin-edge.io support systemd out of the box
+  # - src: ./services/system.toml
+  #   dst: /etc/tedge/system.toml
+  #   type: config
+  #   file_info:
+  #     owner: tedge
+  #     mode: 0644
+
+scripts:
+  postinstall: ./packages/_scripts/postinstall.sh
+  preremove: ./packages/_scripts/preremove.sh
