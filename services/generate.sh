@@ -132,7 +132,7 @@ do
         SHORTNAME="${SHORTNAME:-$COMMAND}"
 
         if [ -z "$TEMPLATE_FOR" ]; then
-            TEMPLATE_FOR="systemd openrc sysvinit sysvinit s6_overlay runit supervisord"
+            TEMPLATE_FOR="systemd openrc sysvinit sysvinit-yocto s6_overlay runit supervisord"
         fi
 
         # Validate mandatory arguments
