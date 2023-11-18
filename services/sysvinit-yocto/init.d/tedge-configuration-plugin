@@ -1,20 +1,20 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          tedge-log-plugin
+# Provides:          tedge-configuration-plugin
 # Required-Start:    $remote_fs $syslog
 # Required-Stop:     $remote_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: thin-edge.io log file retriever
-# Description:       thin-edge.io log file retriever
+# Short-Description: Thin-edge device configuration management
+# Description:       Thin-edge device configuration management
 ### END INIT INFO
 
 dir="/var"
-DAEMON="/usr/bin/tedge-log-plugin"
+DAEMON="/usr/bin/tedge-configuration-plugin"
 DAEMON_USER="root"
 DAEMON_ARGS=""
 
-name="tedge-log-plugin"
+name="tedge-configuration-plugin"
 PIDFILE=/run/lock/$name.lock
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
@@ -61,7 +61,7 @@ is_running() {
     # shellcheck disable=SC2009
     # Use ps/grep fallback as busybox does not support the "ps -p" option
     if command -V pidof >/dev/null 2>&1; then
-        pidof tedge-log-plugin >/dev/null
+        pidof tedge-configuration-plugin >/dev/null
     else
         PROCESSES=$(ps -x || ps)
         [ -f "$PIDFILE" ] && (echo "$PROCESSES" | grep "^[[:blank:]]*$(get_pid)" >/dev/null 2>&1)
