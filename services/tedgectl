@@ -77,7 +77,8 @@ manage_sysvinit() {
         is_available)
             # service --status-all does not run on some systems (e.g. older yocto versions)
             if command -V pidof >/dev/null 2>&1; then
-                [ "$(pidof /sbin/init)" = "1" ]
+                # sysvinit can be either called using /sbin/init or /init
+                [ "$(pidof /sbin/init)" = "1" ] || [ "$(pidof init)" = "1" ]
             elif command -V grep >/dev/null 2>&1; then
                 /sbin/init --version | grep -qi sysv
             else
