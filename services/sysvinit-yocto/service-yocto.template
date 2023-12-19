@@ -94,6 +94,7 @@ do_start() {
 		;;
 	*)
 		echo "Starting $DESC ..."
+		tedge init ||:
 		exec $DAEMON $DAEMON_ARGS >/dev/null 2>&1 || status=$?
 		echo "ERROR: Failed to start $DESC."
 		exit $status
