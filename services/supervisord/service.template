@@ -1,5 +1,5 @@
 [program:$NAME]
-command=$COMMAND $COMMAND_ARGS
+command=/bin/sh -c "tedge init ||:; $COMMAND $COMMAND_ARGS"
 user=$COMMAND_USER
 startsecs=5
 autostart=true
