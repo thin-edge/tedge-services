@@ -1,6 +1,0 @@
-NAME=tedge-configuration-plugin
-COMMAND=/usr/bin/tedge-configuration-plugin
-#COMMAND_ARGS=
-COMMAND_USER=root
-ENV_ENABLE_SERVICE=SERVICE_TEDGE_CONFIGURATION_PLUGIN
-DESCRIPTION="Thin-edge device configuration management"
