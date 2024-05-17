@@ -131,7 +131,11 @@ case "$1" in
     ;;
 
   status)
-    status_of_proc -p "${PIDFILE}" "${DAEMON}" "tedge-mapper-c8y" && exit 0 || exit $?
+    if command -V status_of_proc >/dev/null 2>&1; then
+        status_of_proc -p "${PIDFILE}" "${DAEMON}" "tedge-mapper-c8y" && exit 0 || exit $?
+    else
+        status "${DAEMON}" && exit 0 || exit $?
+    fi
     ;;
 
   *)
