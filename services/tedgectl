@@ -103,7 +103,12 @@ manage_sysvinit() {
             if command -V service >/dev/null 2>&1; then
                 service "$name" restart
             else
-                "/etc/init.d/$name" restart
+                # Use stop then start as some services the pid file
+                # does not get deleted quick enough before starting, which results in the start failing.
+                # This problem was observed on an opto-22 device when restarting mosquitto
+                "/etc/init.d/$name" stop
+                sleep 1
+                "/etc/init.d/$name" start
             fi
             ;;
         enable)
