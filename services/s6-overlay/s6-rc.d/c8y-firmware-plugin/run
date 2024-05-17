@@ -5,6 +5,7 @@ if [ "${SERVICE_C8Y_FIRMWARE_PLUGIN:-1}" -eq 0 ]; then
     s6-svc -O .
     exit 0
 fi
+tedge init ||:
 
 exec 2>&1
 exec /usr/bin/c8y-firmware-plugin 

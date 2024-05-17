@@ -10,6 +10,7 @@ error_log="${TEDGE_LOGFILE}"
 
 start_pre()
 {
+    tedge init ||:
     if [ -n "tedge" ]; then
         checkpath --file --owner "tedge" "$TEDGE_LOGFILE"
     fi

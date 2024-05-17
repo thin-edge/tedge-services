@@ -5,6 +5,7 @@ if [ "${SERVICE_TEDGE_MAPPER_C8Y:-1}" -eq 0 ]; then
     s6-svc -O .
     exit 0
 fi
+tedge init ||:
 
 exec 2>&1
 exec /usr/bin/tedge-mapper c8y
