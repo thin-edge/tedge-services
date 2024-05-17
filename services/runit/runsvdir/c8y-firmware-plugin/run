@@ -7,6 +7,7 @@ PIDFILE="/run/lock/c8y-firmware-plugin.lock"
 mkdir -p /run/lock
 chown 1777 /run/lock
 touch "$PIDFILE"
+tedge init ||:
 
 if [ -n "$DAEMON_USER" ]; then
     chown "$DAEMON_USER" "$PIDFILE"
