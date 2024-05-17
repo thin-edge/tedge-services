@@ -76,6 +76,7 @@ do_start() {
     if [ $run_service = 1 ]
     then
         log_begin_msg "Starting c8y-firmware-plugin daemon..."
+        tedge init ||:
 
         # Create log file with given user so it can write to it (for non-root users)
         touch "$LOG_FILE"
@@ -130,7 +131,7 @@ case "$1" in
     ;;
 
   status)
-    status "$DAEMON"
+    status_of_proc -p "${PIDFILE}" "${DAEMON}" "c8y-firmware-plugin" && exit 0 || exit $?
     ;;
 
   *)
