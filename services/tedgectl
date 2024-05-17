@@ -9,22 +9,30 @@ if [ -f /etc/tedgectl/env ]; then
     . /etc/tedgectl/env
 fi
 
+system_command_exists() {
+    # Note: system commands might not be in the path for a non-root
+    # user, e.g. under /sbin and /usr/sbin. This may result in some false
+    # negatives. Use a modified path when checking the existence for
+    # more consistent results
+	PATH="$PATH:/sbin:/usr/sbin" command -v "$@" > /dev/null 2>&1
+}
+
 #
 # Detect service manager
 #
 SERVICE_MANAGER="${SERVICE_MANAGER:-}"
 if [ -z "$SERVICE_MANAGER" ]; then
-    if command -V systemctl >/dev/null 2>&1; then
+    if system_command_exists systemctl; then
         SERVICE_MANAGER="systemd"
-    elif command -V rc-service >/dev/null 2>&1; then
+    elif system_command_exists rc-service; then
         SERVICE_MANAGER="openrc"
-    elif command -V update-rc.d >/dev/null 2>&1; then
+    elif system_command_exists update-rc.d; then
         SERVICE_MANAGER="sysvinit"
     elif [ -f /command/s6-rc ]; then
         SERVICE_MANAGER="s6_overlay"
-    elif command -V runsv >/dev/null 2>&1; then
+    elif system_command_exists runsv; then
         SERVICE_MANAGER="runit"
-    elif command -V supervisorctl >/dev/null 2>&1; then
+    elif system_command_exists supervisorctl; then
         SERVICE_MANAGER="supervisord"
     else
         echo "Could not detect the init system. Only openrc,runit,systemd,sysvinit,s6_overlay,supervisord are supported" >&2
@@ -79,6 +87,8 @@ manage_sysvinit() {
             if command -V pidof >/dev/null 2>&1; then
                 # sysvinit can be either called using /sbin/init or /init
                 [ "$(pidof /sbin/init)" = "1" ] || [ "$(pidof init)" = "1" ]
+            elif [ "$(cat /proc/1/comm)" = "init" ]; then
+                exit 0
             elif command -V grep >/dev/null 2>&1; then
                 /sbin/init --version | grep -qi sysv
             else
