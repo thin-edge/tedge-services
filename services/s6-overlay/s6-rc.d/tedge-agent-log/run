@@ -1,2 +1,2 @@
-#!/bin/sh
-sed 's/^/\x1b[34mtedge-agent |\x1b[0m /' --unbuffered
+#!/command/execlineb -P
+s6-format-filter "\033[34m%1 |\033[0m %s" tedge-agent

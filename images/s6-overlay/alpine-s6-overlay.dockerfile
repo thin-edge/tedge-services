@@ -9,9 +9,7 @@ RUN apk update \
         ca-certificates \
         mosquitto \
         sudo \
-        curl \
-        # GNU sed (used in service definitions)
-        sed
+        curl
 
 # Install s6-overlay
 # Based on https://github.com/just-containers/s6-overlay#which-architecture-to-use-depending-on-your-targetarch
