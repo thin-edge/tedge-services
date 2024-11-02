@@ -16,6 +16,11 @@ DAEMON_ARGS="az"
 
 name="tedge-mapper-az"
 PIDFILE=/run/lock/$name.lock
+if [ -d /run/lock ]; then
+    PIDFILE=/run/lock/$name.lock
+else
+    PIDFILE=/var/run/$name.lock
+fi
 stdout_log="/var/log/$name.log"
 stderr_log="/var/log/$name.err"
 

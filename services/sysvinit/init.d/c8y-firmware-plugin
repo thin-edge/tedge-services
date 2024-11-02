@@ -37,6 +37,11 @@ export TEDGE_RUN_LOCK_FILES="false"
 
 DAEMON=/usr/bin/c8y-firmware-plugin
 PIDFILE=/run/lock/c8y-firmware-plugin.lock
+if [ -d /run/lock ]; then
+    PIDFILE=/run/lock/c8y-firmware-plugin.lock
+else
+    PIDFILE=/var/run/c8y-firmware-plugin.lock
+fi
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 

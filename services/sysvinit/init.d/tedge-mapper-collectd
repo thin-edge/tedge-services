@@ -37,6 +37,11 @@ export TEDGE_RUN_LOCK_FILES="false"
 
 DAEMON=/usr/bin/tedge-mapper
 PIDFILE=/run/lock/tedge-mapper-collectd.lock
+if [ -d /run/lock ]; then
+    PIDFILE=/run/lock/tedge-mapper-collectd.lock
+else
+    PIDFILE=/var/run/tedge-mapper-collectd.lock
+fi
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 
