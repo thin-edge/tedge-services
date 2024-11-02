@@ -37,6 +37,11 @@ export TEDGE_RUN_LOCK_FILES="false"
 
 DAEMON=/usr/bin/tedge-agent
 PIDFILE=/run/lock/tedge-agent.lock
+if [ -d /run/lock ]; then
+    PIDFILE=/run/lock/tedge-agent.lock
+else
+    PIDFILE=/var/run/tedge-agent.lock
+fi
 
 STOP_RETRY_SCHEDULE='TERM/30/KILL/1'
 
