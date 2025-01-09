@@ -154,7 +154,17 @@ manage_s6_overlay() {
         is_available) /command/s6-rc list ;;
         start) /command/s6-rc start "$name" ;;
         stop) /command/s6-rc stop "$name" ;;
-        restart) /command/s6-svc -r "/run/service/$name" ;;
+        restart)
+            # Note: if a service is not already running then it should be simply started as
+            # "s6-svc -r" as no affect if the service is not already running
+            if [ -f "/run/service/$name/down" ]; then
+                # Service is not already running, so just start it
+                /command/s6-rc start "$name"
+            else
+                # Restart an already running service by sending it a signal (via s6-svc)
+                /command/s6-svc -r "/run/service/$name"
+            fi
+            ;;
         enable) /command/s6-rc start "$name" ;;
         disable) /command/s6-rc stop "$name" ;;
         is_active|status)
