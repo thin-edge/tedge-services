@@ -15,6 +15,10 @@ license: Apache License 2.0
 apk:
   # Use noarch instead of "all"
   arch: noarch
+  scripts:
+    # Alpine Linux uses different hooks for upgrades
+    preupgrade: ./packages/_scripts/preinstall.sh
+    postupgrade: ./packages/_scripts/postinstall.sh
 contents:
   - src: ./services/sysvinit-yocto/init.d/*
     dst: /etc/init.d/
