@@ -17,6 +17,15 @@ system_command_exists() {
 	PATH="$PATH:/sbin:/usr/sbin" command -v "$@" > /dev/null 2>&1
 }
 
+call_shutdown_or_reboot() {
+    # Note: shutdown is not always available (e.g. Alpine Linux only has shutdown)
+    if system_command_exists shutdown; then
+        shutdown -r now
+    else
+        reboot
+    fi
+}
+
 #
 # Detect service manager
 #
@@ -72,7 +81,7 @@ manage_openrc() {
         disable) rc-update delete "$name" ;;
         is_active|status) rc-service "$name" status ;;
         restart_device)
-            shutdown -r now
+            call_shutdown_or_reboot
             ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
@@ -141,7 +150,7 @@ manage_sysvinit() {
             fi
             ;;
         restart_device)
-            shutdown -r now
+            call_shutdown_or_reboot
             ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
@@ -193,7 +202,7 @@ manage_supervisord() {
         disable) supervisorctl remove "$name" ;;
         is_active|status) supervisorctl status "$name";;
         restart_device)
-            shutdown -r now
+            call_shutdown_or_reboot
             ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
@@ -230,7 +239,7 @@ manage_runit() {
             ;;
         is_active|status) sv status "$name" ;;
         restart_device)
-            shutdown -r now
+            call_shutdown_or_reboot
             ;;
         *) echo "[$SERVICE_MANAGER] Unsupported command. command=$command"; exit 1 ;;
     esac
