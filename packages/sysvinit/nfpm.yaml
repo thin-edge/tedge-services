@@ -47,5 +47,7 @@ contents:
       mode: 0644
 
 scripts:
+  preinstall: ./packages/_scripts/preinstall.sh
   postinstall: ./packages/_scripts/postinstall.sh
   preremove: ./packages/_scripts/preremove.sh
+  postremove: ./packages/_scripts/postremove.sh
