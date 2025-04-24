@@ -1,6 +1,7 @@
 [Unit]
 Description=$DESCRIPTION
 After=syslog.target network.target mosquitto.service
+$SYSTEMD_DEPENDENCIES
 
 [Service]
 User=$COMMAND_USER
