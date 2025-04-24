@@ -12,6 +12,11 @@ fi
 execute_template() {
     input_file="$1"
 
+    SYSTEMD_DEPENDENCIES_PATTERN="/\\\$SYSTEMD_DEPENDENCIES/d"
+    if [ -n "$SYSTEMD_DEPENDENCIES" ]; then
+        SYSTEMD_DEPENDENCIES_PATTERN="s|\\\$SYSTEMD_DEPENDENCIES|${SYSTEMD_DEPENDENCIES:-}|g"
+    fi
+
     "$SED" \
         -e "s|\\\$NAME|${NAME:-}|g" \
         -e "s|\\\$LOG_NAME|${NAME:-}|g" \
@@ -21,11 +26,17 @@ execute_template() {
         -e "s|\\\$ENV_ENABLE_SERVICE|${ENV_ENABLE_SERVICE:-}|g" \
         -e "s|\\\$SHORTNAME|${SHORTNAME:-}|g" \
         -e "s|\\\$DESCRIPTION|${DESCRIPTION:-}|g" \
+        -e "$SYSTEMD_DEPENDENCIES_PATTERN" \
         "$input_file"
 }
 
 execute_template_inplace() {
     input_file="$1"
+
+    SYSTEMD_DEPENDENCIES_PATTERN="/\\\$SYSTEMD_DEPENDENCIES/d"
+    if [ -n "$SYSTEMD_DEPENDENCIES" ]; then
+        SYSTEMD_DEPENDENCIES_PATTERN="s|\\\$SYSTEMD_DEPENDENCIES|${SYSTEMD_DEPENDENCIES:-}|g"
+    fi
 
     "$SED" -i \
         -e "s|\\\$NAME|${NAME:-}|g" \
@@ -36,6 +47,7 @@ execute_template_inplace() {
         -e "s|\\\$ENV_ENABLE_SERVICE|${ENV_ENABLE_SERVICE:-}|g" \
         -e "s|\\\$SHORTNAME|${SHORTNAME:-}|g" \
         -e "s|\\\$DESCRIPTION|${DESCRIPTION:-}|g" \
+        -e "$SYSTEMD_DEPENDENCIES_PATTERN" \
         "$input_file"
 }
 
@@ -123,6 +135,7 @@ do
         DESCRIPTION=""
         TEMPLATE_FOR=""
         SHORTNAME="${NAME:-}"
+        SYSTEMD_DEPENDENCIES=""
 
         # Source template variables
         # shellcheck disable=SC1090
