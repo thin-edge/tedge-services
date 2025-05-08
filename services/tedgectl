@@ -78,7 +78,10 @@ manage_openrc() {
         stop) rc-service "$name" stop ;;
         restart) rc-service "$name" restart ;;
         enable) rc-update add "$name" ;;
-        disable) rc-update delete "$name" ;;
+        disable)
+            # Note: ignore errors as disabling a service twice returns a non-zero exit code
+            rc-update delete "$name" ||:
+            ;;
         is_active|status) rc-service "$name" status ;;
         restart_device)
             call_shutdown_or_reboot
