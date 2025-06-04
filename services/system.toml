@@ -2,6 +2,7 @@
 name = "tedgectl"
 is_available = ["/usr/bin/tedgectl", "is_available"]
 restart = ["/usr/bin/tedgectl", "restart", "{}"]
+start =  ["/usr/bin/tedgectl", "start", "{}"]
 stop =  ["/usr/bin/tedgectl", "stop", "{}"]
 enable =  ["/usr/bin/tedgectl", "enable", "{}"]
 disable =  ["/usr/bin/tedgectl", "disable", "{}"]
