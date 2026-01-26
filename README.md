@@ -224,6 +224,8 @@ The service definitions are also available via a tarball which can be manually i
     For example if you want to enable all of the services then use:
 
     ```sh
+    echo "detected init system: $(tedgectl --show)"
+
     tedgectl enable tedge-mapper-c8y
     tedgectl start tedge-mapper-c8y
 

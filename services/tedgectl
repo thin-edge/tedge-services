@@ -257,6 +257,14 @@ if [ $# -ge 2 ]; then
     SERVICE_NAME="$2"
 fi
 
+# meta command used to show the type of init system being used
+case "$COMMAND" in
+    --show)
+        echo "$SERVICE_MANAGER"
+        exit 0
+        ;;
+esac
+
 case "$SERVICE_MANAGER" in
     systemd)
         manage_systemd "$COMMAND" "$SERVICE_NAME"
