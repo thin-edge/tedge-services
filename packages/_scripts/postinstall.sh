@@ -18,6 +18,9 @@ if command -V tedge-mapper >/dev/null 2>&1; then
         tedgectl enable tedge-mapper-aws ||:
         tedgectl start tedge-mapper-aws 2>/dev/null ||:
     fi
+    ### Enable the local mapper service
+    tedgectl enable tedge-mapper-local ||:
+    tedgectl start tedge-mapper-local 2>/dev/null ||:
     ### Enable the service if the collectd is running on the device
     if [ -d /run/systemd/system ]; then
         if is_active "collectd" >/dev/null >&2; then
