@@ -4,6 +4,10 @@ set -e
 # disable services (ignore if not found)
 tedgectl disable tedge-agent 2>/dev/null ||:
 tedgectl disable tedge-mapper-c8y 2>/dev/null ||:
+tedgectl disable tedge-mapper-az 2>/dev/null ||:
+tedgectl disable tedge-mapper-aws 2>/dev/null ||:
+tedgectl disable tedge-mapper-collectd 2>/dev/null ||:
+tedgectl disable tedge-mapper-local 2>/dev/null ||:
 tedgectl disable tedge-configuration-plugin 2>/dev/null ||:
 tedgectl disable tedge-log-plugin 2>/dev/null ||:
 tedgectl disable c8y-firmware-plugin 2>/dev/null ||:
@@ -11,6 +15,10 @@ tedgectl disable c8y-firmware-plugin 2>/dev/null ||:
 # stop services (ignore if not found)
 tedgectl stop tedge-agent 2>/dev/null ||:
 tedgectl stop tedge-mapper-c8y 2>/dev/null ||:
+tedgectl stop tedge-mapper-az 2>/dev/null ||:
+tedgectl stop tedge-mapper-aws 2>/dev/null ||:
+tedgectl stop tedge-mapper-collectd 2>/dev/null ||:
+tedgectl stop tedge-mapper-local 2>/dev/null ||:
 tedgectl stop tedge-configuration-plugin 2>/dev/null ||:
 tedgectl stop tedge-log-plugin 2>/dev/null ||:
 tedgectl stop c8y-firmware-plugin 2>/dev/null ||:
