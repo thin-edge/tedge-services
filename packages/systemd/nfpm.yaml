@@ -21,7 +21,7 @@ apk:
     postupgrade: ./packages/_scripts/postinstall.sh
 contents:
   - src: ./services/systemd/system/*
-    dst: /lib/systemd/system/
+    dst: /usr/lib/systemd/system/
     file_info:
       mode: 0644
 
