@@ -2,6 +2,6 @@ NAME=tedge-mapper-local
 COMMAND=/usr/bin/tedge-mapper
 COMMAND_ARGS=local
 COMMAND_USER=tedge
-ENV_ENABLE_SERVICE=SERVICE_TEDGE_MAPPER_C8Y
+ENV_ENABLE_SERVICE=SERVICE_TEDGE_MAPPER_LOCAL
 DESCRIPTION="thin-edge.io user-defined flows to transform and aggregate data"
 SHORTNAME=mapper-local
