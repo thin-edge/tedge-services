@@ -26,6 +26,16 @@ call_shutdown_or_reboot() {
     fi
 }
 
+strip_service_suffix() {
+    # Note: only systemd users suffixes like .service, .target which are incompatible
+    # with other init systems, but be loud about the conversion (as it could be unexpected)
+    output="${1%.*}"
+    if [ "$1" != "$output" ]; then
+        echo "Normalizing '$1' to '$output'" >&2
+    fi
+    echo "$output"
+}
+
 #
 # Detect service manager
 #
@@ -70,7 +80,7 @@ manage_systemd() {
 
 manage_openrc() {
     command="$1"
-    name="$2"
+    name=$(strip_service_suffix "$2")
     case "$command" in
         # is_available) rc-service -l ;;
         is_available) rc-status --all ;;
@@ -92,7 +102,7 @@ manage_openrc() {
 
 manage_sysvinit() {
     command="$1"
-    name="$2"
+    name=$(strip_service_suffix "$2")
     case "$command" in
         is_available)
             # service --status-all does not run on some systems (e.g. older yocto versions)
@@ -161,7 +171,7 @@ manage_sysvinit() {
 
 manage_s6_overlay() {
     command="$1"
-    name="$2"
+    name=$(strip_service_suffix "$2")
     case "$command" in
         is_available) /command/s6-rc list ;;
         start) /command/s6-rc start "$name" ;;
@@ -194,7 +204,7 @@ manage_s6_overlay() {
 
 manage_supervisord() {
     command="$1"
-    name="$2"
+    name=$(strip_service_suffix "$2")
 
     case "$command" in
         is_available) supervisorctl status >/dev/nul 2>&1 ;;
@@ -213,7 +223,7 @@ manage_supervisord() {
 
 manage_runit() {
     command="$1"
-    name="$2"
+    name=$(strip_service_suffix "$2")
     export SVDIR="${SVDIR:-/etc/service}"
     RUNIT_SRCDIR="${RUNIT_SRCDIR:-/etc/runit}"
 
@@ -248,36 +258,139 @@ manage_runit() {
     esac
 }
 
+SUPPORTED_INIT_SYSTEMS="openrc,runit,systemd,sysvinit,s6_overlay,supervisord"
+supported_init_systems() {
+    echo "Unknown init system. Only $SUPPORTED_INIT_SYSTEMS are supported" >&2
+}
+
+usage() {
+    cat <<EOT
+Multi init system helper for users with little experience about the differences between the
+different init systems/service managers.
+
+The cli detect which init system is being used on the machine, and maps the commands to the appropriate
+init system cli command.
+
+If something does not work, then please create a ticket under https://github.com/thin-edge/tedge-services
+
+Supported Init Systems / Service Managers:
+  
+  $SUPPORTED_INIT_SYSTEMS
+
+SUBCOMMANDS
+
+  is_available          Check if init system is available
+  restart_device        Restart device
+
+SERVICE ACTIONS
+
+  start <SERVICE>       Start service
+  stop <SERVICE>        Stop service
+  restart <SERVICE>     Restart service
+  enable <SERVICE>      Enable service
+  disable <SERVICE>     Disable service
+  is_active <SERVICE>   Check if service is active
+  status <SERVICE>      Check if service is active (alias for is_active)
+
+EXAMPLES
+
+  $0 restart tedge-agent
+  # Restart the tedge-agent service
+
+  $0 enable tedge-agent
+  # Enable the tedge-agent service so that it automatically starts after a reboot
+
+  $0 restart_device
+  # Restart the device
+EOT
+}
+
 ##############################
 # Main
 ##############################
-COMMAND="$1"
-SERVICE_NAME=""
-if [ $# -ge 2 ]; then
-    SERVICE_NAME="$2"
+COMMAND=
+if [ $# -eq 0 ]; then
+    echo "ERROR: Missing required argument" >&2
+    usage
+    exit 1
 fi
 
+COMMAND="$1"
+shift
+
+if [ $# -eq 0 ]; then
+    #
+    # Non-service based commands like restart_device, is_available
+    #
+    case "$SERVICE_MANAGER" in
+        systemd)
+            manage_systemd "$COMMAND"
+            ;;
+        openrc)
+            manage_openrc "$COMMAND"
+            ;;
+        sysvinit)
+            manage_sysvinit "$COMMAND"
+            ;;
+        s6_overlay)
+            manage_s6_overlay "$COMMAND"
+            ;;
+        runit)
+            manage_runit "$COMMAND"
+            ;;
+        supervisord)
+            manage_supervisord "$COMMAND"
+            ;;
+        *)
+            supported_init_systems
+            exit 1
+            ;;
+    esac
+    exit 0
+fi
+
+#
+# Service commands, where multiple services can be given and the same action will be performed on all of them
+#
 case "$SERVICE_MANAGER" in
     systemd)
-        manage_systemd "$COMMAND" "$SERVICE_NAME"
+        while [ $# -gt 0 ]; do
+            manage_systemd "$COMMAND" "$1"
+            shift
+        done
         ;;
     openrc)
-        manage_openrc "$COMMAND" "$SERVICE_NAME"
+        while [ $# -gt 0 ]; do
+            manage_openrc "$COMMAND" "$1"
+            shift
+        done
         ;;
     sysvinit)
-        manage_sysvinit "$COMMAND" "$SERVICE_NAME"
+        while [ $# -gt 0 ]; do
+            manage_sysvinit "$COMMAND" "$1"
+            shift
+        done
         ;;
     s6_overlay)
-        manage_s6_overlay "$COMMAND" "$SERVICE_NAME"
+        while [ $# -gt 0 ]; do
+            manage_s6_overlay "$COMMAND" "$1"
+            shift
+        done
         ;;
     runit)
-        manage_runit "$COMMAND" "$SERVICE_NAME"
+        while [ $# -gt 0 ]; do
+            manage_runit "$COMMAND" "$1"
+            shift
+        done
         ;;
     supervisord)
-        manage_supervisord "$COMMAND" "$SERVICE_NAME"
+        while [ $# -gt 0 ]; do
+            manage_supervisord "$COMMAND" "$1"
+            shift
+        done
         ;;
     *)
-        echo "Unknown init system. Only openrc,runit,systemd,sysvinit,s6_overlay,supervisord are supported" >&2
+        supported_init_systems
         exit 1
         ;;
 esac
